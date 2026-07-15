@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погляд на історію української мови — Олександер Колесса</title>
+
+    <!-- Google Fonts: Monomakh для історичних заголовків, Lora для академічного тексту та Montserrat для сучасного інтерфейсу -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS для побудови адаптивної структури -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        monomakh: ['Monomakh', 'serif'],
+                        serif: ['Montserrat', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        amber: {
+                            50: '#fefdfb',
+                            100: '#fdf9f1',
+                            200: '#faf0dd',
+                            300: '#f5e1be',
+                            400: '#ecc892',
+                            500: '#e0a967',
+                            600: '#d28b43',
+                            700: '#b46e31',
+                            800: '#945527',
+                            900: '#7a4421',
+                            950: '#42210e',
+                        },
+                        darkBg: '#0f0f11',
+                        darkCard: '#18181c',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b46e31;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d28b43;
+        }
+
+        .monomakh-text {
+            font-family: 'Monomakh', serif;
+        }
+
+        /* Ефект старовинного сяйва */
+        .baroque-glow {
+            box-shadow: 0 0 30px -5px rgba(224, 169, 103, 0.15);
+        }
+
+        /* Специфічні OpenType правила для сербської локалізації кирилиці */
+        .serbian-b, [lang="sr"] {
+            font-language-override: "SRB" !important;
+            font-feature-settings: "locl" 1, "ccmp" 1 !important;
+        }
+
+        .bulgarian-b, [lang="bg"] {
+            font-language-override: "BGR" !important;
+            font-feature-settings: "locl" 1, "ccmp" 1 !important;
+        }
+    </style>
+</head>
+<body class="bg-[#0f0f11] text-gray-200 font-sans selection:bg-amber-800 selection:text-amber-100 antialiased">
+
+    <!-- Фонові декоративні крапки -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.02] bg-[radial-gradient(#e0a967_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <!-- Шапка / Навігація -->
+    <header class="sticky top-0 z-50 bg-[#0f0f11]/90 backdrop-blur-md border-b border-amber-950/40 px-4 py-4 md:px-8 no-wrap-b">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="monomakh-text text-3xl text-amber-500 font-bold tracking-wider">Ꙋ</span>
+                <div>
+                    <h1 class="text-xs tracking-[0.2em] text-amber-500/80 uppercase font-semibold">Університетська лекція</h1>
+                    <p class="text-sm text-gray-400 font-medium">О. Колесса (Прага, 1921)</p>
+                </div>
+            </div>
+            <nav class="flex gap-2 sm:gap-4 text-xs md:text-sm font-medium">
+                <a href="#prologue" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-400 transition-all">Вступ</a>
+                <a href="#criticism" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Критика</a>
+                <a href="#linguistics" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Фонетика</a>
+                <a href="#typography-ctrl" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Локалізація б</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10">
+
+        <!-- Герой-блок / Заголовок -->
+        <section class="relative mb-16 text-center py-12 md:py-20 overflow-hidden rounded-3xl border border-amber-950/40 bg-gradient-to-b from-[#18181c] to-[#0f0f11] baroque-glow no-wrap-b">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <span class="inline-block text-amber-500/30 monomakh-text text-8xl md:text-9xl mb-4 select-none animate-pulse">Ꙋкраїна</span>
+
+            <h1 class="monomakh-text text-4xl md:text-6xl text-amber-400 max-w-4xl mx-auto leading-tight px-4 font-bold tracking-wide">
+                Поглядъ на українську мову
+            </h1>
+
+            <p class="text-gray-400 mt-6 max-w-xl mx-auto text-sm md:text-base leading-relaxed px-4 font-serif">
+                Інауґураційний виклад, виголошений в Українському Вільному Університеті в Празі дня 23 жовтня 1921 року.
+            </p>
+
+            <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-xs tracking-wider text-amber-500/80 font-semibold uppercase">
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Проф. д-р Олександр Колесса</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Прага, 1921-1924</span>
+            </div>
+        </section>
+
+        <!-- Основний сітковий макет -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Ліва колонка: історичний текст і дослідження -->
+            <div class="lg:col-span-8 space-y-12 font-serif text-gray-300">
+
+                <!-- Розділ: Вступ -->
+                <article id="prologue" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">I</span>
+                        <h2 class="text-2xl font-bold text-amber-400 monomakh-text tracking-wide">Історія мови — дзеркало нації</h2>
+                    </div>
+
+                    <p class="leading-relaxed text-base md:text-lg">
+                        Історія української мови невіддільна від усієї історії нашого народу. Наша мова, розвиваючись разом із нашим народом від перших паростків його культури, відзначає своїми лексичними засобами крок за кроком його піднесення від примітивних фаз мисливського та пастушого періоду до землеробського, козацько-державного і сучасного культурного життя.
+                    </p>
+
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        Вона відображає в собі всі відносини нашого народу з ближніми і далекими сусідами, його експансію, еміграцію та імміграцію, чужі навали, чуже ярмо і зовнішні впливи. Довгі роки в науці панувала теорія, що українська мова — це чи не пізніше утворення, якийсь «зіпсований» діалект. Сучасна наука, однак, категорично доводить її прадавню самобутність і безперервність її розвитку на наших етнічних землях.
+                    </p>
+                </article>
+
+                <!-- Розділ: Племінний поділ -->
+                <article id="tribes" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3 no-wrap-b">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">II</span>
+                        <h2 class="text-2xl font-bold text-amber-400 font-sans tracking-wide">Давні племінні джерела</h2>
+                    </div>
+
+                    <p class="leading-relaxed">
+                        Українські племена займали, наскільки сягають відомості, землі північно-західної та центральної етнічної території. Наш мовний масив сформувався завдяки взаємодії кількох великих племінних союзів:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 font-sans text-gray-200">
+                        <div class="p-4 rounded-xl bg-[#212126] border border-amber-950/20">
+                            <span class="monomakh-text text-amber-500 font-semibold block text-lg">Поляни і Древляни</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Середнє Подніпров'я та басейн Прип'яті — серце майбутньої держави.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#212126] border border-amber-950/20">
+                            <span class="monomakh-text text-amber-500 font-semibold block text-lg">Сіверяни і Дуліби</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Десна, Сейм, Західний Буг і Волинь — сильний північно-західний фланг.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#212126] border border-amber-950/20">
+                            <span class="monomakh-text text-amber-500 font-semibold block text-lg">Уличі і Тиверці</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Простір від Дністра і Прута до Чорного моря — степовий і прибережний розвиток.</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#212126] border border-amber-950/20">
+                            <span class="monomakh-text text-amber-500 font-semibold block text-lg">Білі Хорвати</span>
+                            <span class="text-xs text-gray-400 mt-1 block">Передгір'я та хребти Карпат — глибокі мовні релікти та західні зв'язки.</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Розділ: Критика Погодіна -->
+                <article id="criticism" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3 no-wrap-b">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">III</span>
+                        <h2 class="text-2xl font-bold text-amber-400 font-sans tracking-wide">Крах теорії Погодіна</h2>
+                    </div>
+
+                    <p class="leading-relaxed">
+                        Довгий час у російській імперській науці панувала теорія Михайла Погодіна, яка стверджувала, що після татарської навали 1240 року населення Київщини втекло на північ, а спустошені землі заселили переселенці з Карпат. Ця гіпотеза була штучною спробою позбавити українців спадщини Київської Русі.
+                    </p>
+
+                    <div class="p-6 rounded-xl bg-amber-950/10 border-l-4 border-amber-500 my-4 no-wrap-b">
+                        <p class="text-sm italic text-gray-300 leading-relaxed font-serif">
+                            „Ми повинні найкатегоричнішим чином відкинути думку, що Київщина в давнину була заселена не предками сучасних малоросів... Київщина і Переяславщина могли бути заселені на початку нашої історії лише південноруським, тобто малоруським племенем...“
+                        </p>
+                        <span class="block text-right text-xs text-amber-500 font-semibold mt-3 font-sans">— Олексій Шахматов, «До питання про формування руських наріч»</span>
+                    </div>
+                </article>
+
+                <!-- Розділ: Фонетика -->
+                <article id="linguistics" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3 no-wrap-b">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">IV</span>
+                        <h2 class="text-2xl font-bold text-amber-400 font-sans tracking-wide">Діалекти і фонетика (XI–XIV ст.)</h2>
+                    </div>
+
+                    <p class="leading-relaxed">
+                        Детальний філологічний аналіз давніх рукописів (Остромирове євангеліє 1056 р. та ін.) розкриває чіткі українські мовні особливості, що існували задовго до татарської навали.
+                    </p>
+
+                    <!-- Інтерактивні мовні картки -->
+                    <div class="space-y-4 font-sans text-gray-200">
+                        <div class="p-4 rounded-xl bg-[#212126] hover:bg-[#27272e] transition-all border border-amber-950/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs tracking-widest text-amber-500/70 uppercase font-semibold">Фонетичний процес</span>
+                                <h4 class="text-lg font-bold text-white mt-1">Доля ятя (ѣ) &rarr; перехід у «і»</h4>
+                                <p class="text-xs text-gray-400 mt-1">Давня вимова ятя як вузького закритого голосного [і] чітко простежується в текстах.</p>
+                            </div>
+                            <div class="text-right flex items-center gap-2 self-start md:self-auto no-wrap-b">
+                                <span class="px-2 py-1 bg-amber-950/40 border border-amber-500/30 rounded text-amber-400 text-xs font-mono">сѣно</span>
+                                <span class="text-amber-500 font-bold">&rarr;</span>
+                                <span class="px-2 py-1 bg-amber-900/40 border border-amber-500/50 rounded text-amber-200 text-xs font-bold">сіно</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-[#212126] hover:bg-[#27272e] transition-all border border-amber-950/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs tracking-widest text-amber-500/70 uppercase font-semibold">Голосні звуки</span>
+                                <h4 class="text-lg font-bold text-white mt-1">Злиття «и» та «ы» в один звук [и]</h4>
+                                <p class="text-xs text-gray-400 mt-1">Переписувачі постійно плутають літери «и» та «ы», що свідчить про формування помірно переднього середнього звуку [и].</p>
+                            </div>
+                            <div class="text-right flex items-center gap-2 self-start md:self-auto no-wrap-b">
+                                <span class="px-2 py-1 bg-amber-950/40 border border-amber-500/30 rounded text-amber-400 text-xs font-mono">мило / мыло</span>
+                                <span class="text-amber-500 font-bold">&rarr;</span>
+                                <span class="px-2 py-1 bg-amber-900/40 border border-amber-500/50 rounded text-amber-200 text-xs font-bold">[ми<sup>ы</sup>ло]</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-[#212126] hover:bg-[#27272e] transition-all border border-amber-950/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs tracking-widest text-amber-500/70 uppercase font-semibold">Відмінювання імен</span>
+                                <h4 class="text-lg font-bold text-white mt-1">Давальний відмінок на -ові / -еві</h4>
+                                <p class="text-xs text-gray-400 mt-1">Закінчення, що збереглися в українській мові як провідна норма чоловічого роду однини.</p>
+                            </div>
+                            <div class="text-right flex items-center gap-2 self-start md:self-auto no-wrap-b">
+                                <span class="px-2 py-1 bg-amber-950/40 border border-amber-500/30 rounded text-amber-400 text-xs font-mono">кънезю</span>
+                                <span class="text-amber-500 font-bold">&rarr;</span>
+                                <span class="px-2 py-1 bg-amber-900/40 border border-amber-500/50 rounded text-amber-200 text-xs font-bold">князеви / ігореви</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Права колонка: барокова графіка, симулятор і типографічна локалізація -->
+            <div class="lg:col-span-4 space-y-8 lg:sticky lg:top-24 no-wrap-b">
+
+                <!-- НОВЕ: Інтерактивний модуль локалізації літери "б" -->
+                <div id="typography-ctrl" class="bg-[#1c1c22] p-6 rounded-2xl border border-amber-500/30 baroque-glow space-y-4">
+                    <div class="flex items-center gap-2 border-b border-amber-950/40 pb-3">
+                        <span class="text-lg">🔤</span>
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Типографічні налаштування</span>
+                            <h3 class="text-base font-bold text-white font-sans">Локалізація кирилиці</h3>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        Виберіть, як писати малу літеру <span class="text-amber-500 font-semibold font-mono">„б“</span> на всьому сайті. Сербська графічна норма має специфічну форму, докорінно відмінну в курсиві:
+                    </p>
+
+                    <!-- Панель порівняння наживо -->
+                    <div class="bg-[#0f0f11] p-4 rounded-xl border border-amber-950/30 flex items-center justify-around text-center">
+                        <div>
+                            <span class="text-[10px] text-gray-500 block uppercase font-semibold">Прямий</span>
+                            <span id="compare-regular" class="text-4xl text-amber-400 font-serif dynamic-b transition-all duration-300" lang="sr">б</span>
+                        </div>
+                        <div class="w-px h-10 bg-amber-950/40"></div>
+                        <div>
+                            <span class="text-[10px] text-gray-500 block uppercase font-semibold">Курсив (Italic)</span>
+                            <span id="compare-italic" class="text-4xl text-amber-400 font-serif italic dynamic-b transition-all duration-300" lang="sr">б</span>
+                        </div>
+                    </div>
+
+                    <!-- Кнопки керування -->
+                    <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+                        <button id="btn-bg" onclick="setBStyle('bg')" class="py-2.5 px-3 rounded-lg bg-[#212126] text-gray-400 border border-transparent transition-all hover:bg-[#27272e] hover:text-white">
+                            Болгарський (б)
+                        </button>
+                        <button id="btn-sr" onclick="setBStyle('sr')" class="py-2.5 px-3 rounded-lg bg-zinc-700 text-gray-100 border border-zinc-600 transition-all shadow-md shadow-zinc-950/20 hover:bg-zinc-600">
+                            Сербський (б)
+                        </button>
+                    </div>
+
+                    <span class="block text-[10px] text-gray-500 italic text-center leading-normal">
+                        *Сербське пряме „б“ має горизонтальну верхню лінію, а в курсиві пишеться як латинське „δ“.
+                    </span>
+                </div>
+
+                <!-- Картка шрифту Monomakh і барокової естетики -->
+                <div id="graphics" class="bg-gradient-to-b from-[#1c1c22] to-[#141417] p-6 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex justify-between items-center border-b border-amber-950/40 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold tracking-widest text-amber-500 uppercase">Шрифтова спадщина</span>
+                            <h3 class="text-lg font-bold text-white monomakh-text tracking-wide mt-1">Український барок</h3>
+                        </div>
+                        <span class="monomakh-text text-3xl text-amber-500">Ꙋ</span>
+                    </div>
+
+                    <!-- Візуалізація барокових літер -->
+                    <div class="bg-[#0f0f11] p-4 rounded-xl border border-amber-950/30 text-center space-y-4">
+                        <div class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">Барокове написання «Україна»</div>
+                        <div class="monomakh-text text-5xl md:text-6xl text-amber-400 py-3 select-none leading-none tracking-wider">
+                            Ꙋкраїна
+                        </div>
+                        <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                            Тут поєднуються старовинна лігатура „ук“ (<span class="text-amber-500 font-bold">Ꙋ</span>), барокове латинізоване <span class="text-amber-500 font-bold">N</span> замість класичного „н“ та самобутнє роздільне <span class="text-amber-500 font-bold">ї</span> з двома крапками.
+                        </p>
+                    </div>
+
+                    <!-- Порівняльна таблиця шрифтових елементів -->
+                    <div class="space-y-3 font-sans text-xs">
+                        <h4 class="text-[10px] font-bold uppercase text-amber-500/80 tracking-widest">Ключові графеми козацької доби:</h4>
+
+                        <div class="flex justify-between items-center p-2.5 rounded bg-[#212126]">
+                            <span class="text-gray-400 font-medium">Лігатурний „ук“ (о+у)</span>
+                            <span class="monomakh-text text-amber-400 text-2xl font-bold">Ꙋ / Ꙋ</span>
+                        </div>
+
+                        <div class="flex justify-between items-center p-2.5 rounded bg-[#212126]">
+                            <span class="text-gray-400 font-medium">Латинізована „н“</span>
+                            <span class="monomakh-text text-amber-400 text-2xl font-bold">и / н (N)</span>
+                        </div>
+
+                        <div class="flex justify-between items-center p-2.5 rounded bg-[#212126]">
+                            <span class="text-gray-400 font-medium">Барокове роздільне „ї“</span>
+                            <span class="monomakh-text text-amber-400 text-2xl font-bold">ї (ї)</span>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        У XVII–XVIII століттях ця вишукана графіка друкарень Києво-Печерської лаври та Острога вирізняла українську книгу в європейському просторі, а згодом надихнула Георгія Нарбута на створення сучасного національного стилю.
+                    </p>
+                </div>
+
+                <!-- Інтерактивний бароковий інструмент -->
+                <div class="bg-[#18181c] p-6 rounded-2xl border border-amber-950/30 space-y-4">
+                    <h3 class="text-base font-bold text-amber-400 monomakh-text tracking-wide flex items-center gap-2">
+                        <span>🖋️</span> Каліграфічний симулятор
+                    </h3>
+                    <p class="text-xs text-gray-400 font-serif">
+                        Введіть текст нижче, щоб побачити його у вишуканому бароковому шрифті <span class="text-amber-500 font-bold">Monomakh</span>:
+                    </p>
+
+                    <div class="space-y-3">
+                        <input type="text" id="baroqueInput" value="Українська воля"
+                               class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-amber-500 transition-colors"
+                               placeholder="Введіть текст...">
+
+                        <div class="p-4 bg-[#0f0f11] rounded-lg border border-amber-950/40 min-h-[90px] flex items-center justify-center text-center">
+                            <p id="baroqueOutput" class="monomakh-text text-3xl text-amber-400 tracking-wide break-all">
+                                Українська воля
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="applyBaroqueSubstitutions()"
+                                class="flex-1 bg-amber-700 hover:bg-amber-600 text-white text-xs font-semibold py-2 rounded-lg transition-colors">
+                            Авто-заміна (Ꙋ, і)
+                        </button>
+                        <button onclick="resetBaroqueInput()"
+                                class="px-3 bg-zinc-800 hover:bg-zinc-700 text-gray-400 hover:text-white text-xs rounded-lg transition-colors">
+                            Очистити
+                        </button>
+                    </div>
+                    <span class="block text-[10px] text-gray-500 italic text-center leading-normal">
+                        Автоматична заміна змінює звичайне „У“ на барокове „Ꙋ“, а „и“ в певних позиціях на „і“ згідно зі старовинним правописом.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Повний історичний текст і висновки -->
+        <section class="mt-12 bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30">
+            <h3 class="text-2xl font-bold text-amber-400 monomakh-text tracking-wide mb-6 no-wrap-b">Двоєдиний процес і висновки праці</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base leading-relaxed text-gray-300 font-serif">
+                <div class="space-y-4">
+                    <p>
+                        У розвитку української мови Олександр Колесса виділяє два паралельні процеси, які дедалі більше зближуються. По-перше, це живий усний народний язик, діалектні особливості якого зародилися ще в праслов'янську епоху і збереглися попри всі випробування.
+                    </p>
+                    <p>
+                        По-друге — розвиток писемної мови. Довгий час вона була церковнослов'янською, але вже з перших кроків на Русі зазнавала сильного впливу живої української мови. Місцеві переписувачі мимоволі переносили власні фонетичні навички на пергамент церковних фоліантів.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <p>
+                        Українська мова успішно подолала віковий імперський тиск, заборони й спроби асиміляції з боку сусідніх держав і зберегла свою яскраву індивідуальність, багату структуру, глибоку милозвучність та унікальну графічну ідентичність.
+                    </p>
+                    <p class="text-amber-500 font-semibold italic no-wrap-b font-sans text-xs md:text-sm">
+                        „Український вільний університет у Празі, продовжуючи традиції вищої науки, ставить собі за завдання розкрити перед світом правду про нашу мовну та культурну самобутність, звільнивши її від імперських міфів і політичних спекуляцій.“
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-16 no-wrap-b">
+        <p class="mb-2">&copy; 1921–2026 Український вільний університет.</p>
+        <p>Веб-презентацію підготовлено за оригінальними матеріалами вступної лекції Олександра Колесси в Празі.</p>
+    </footer>
+
+    <!-- Логіка інтерактивного барокового симулятора та заміни літери б -->
+    <script>
+        // Елементи каліграфічного симулятора
+        const baroqueInput = document.getElementById('baroqueInput');
+        const baroqueOutput = document.getElementById('baroqueOutput');
+
+        baroqueInput.addEventListener('input', function() {
+            updateOutput(this.value);
+        });
+
+        function updateOutput(text) {
+            if (text.trim() === '') {
+                baroqueOutput.textContent = '...';
+            } else {
+                baroqueOutput.textContent = text;
+            }
+        }
+
+        // Авто-заміна символів для барокового колориту
+        function applyBaroqueSubstitutions() {
+            let text = baroqueInput.value;
+
+            // Заміна "У" / "у" на бароковий монограф "Ꙋ"
+            text = text.replace(/У/g, 'Ꙋ');
+            text = text.replace(/у/g, 'Ꙋ');
+
+            // Історична стилізація приголосних для симулятора
+            text = text.replace(/н/g, 'и');
+            text = text.replace(/Н/g, 'N');
+
+            // Історичне "і" з двома крапками
+            text = text.replace(/и/g, 'і');
+            text = text.replace(/іі/g, 'ї');
+
+            baroqueInput.value = text;
+            updateOutput(text);
+        }
+
+        function resetBaroqueInput() {
+            baroqueInput.value = 'Українська воля';
+            updateOutput('Українська воля');
+        }
+
+        // --- ЛОГІКА СЕРБСЬКОЇ/БОЛГАРСЬКОЇ ЛОКАЛІЗАЦІЇ ЛІТЕРИ "б" ---
+
+        // Обходить текстові вузли сторінки та обгортає літеру "б" у динамічний span
+        function wrapBLetters(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const parent = node.parentNode;
+                // Ігноруємо контроли, поля вводу та стилі
+                if (parent && parent.closest('script, style, textarea, input, #baroqueInput, #baroqueOutput, .no-wrap-b')) return;
+
+                const text = node.nodeValue;
+                if (text.includes('б')) {
+                    const html = text.replace(/б/g, '<span class="dynamic-b transition-all duration-300" lang="sr">б</span>');
+                    const temp = document.createElement('div');
+                    temp.innerHTML = html;
+
+                    while (temp.firstChild) {
+                        parent.insertBefore(temp.firstChild, node);
+                    }
+                    parent.removeChild(node);
+                }
+            } else {
+                for (let i = node.childNodes.length - 1; i >= 0; i--) {
+                    wrapBLetters(node.childNodes[i]);
+                }
+            }
+        }
+
+        // Зміна мовної локалізації обгорнутих літер б
+        function setBStyle(style) {
+            const elements = document.querySelectorAll('.dynamic-b');
+            elements.forEach(el => {
+                el.setAttribute('lang', style);
+                // Буквите "б" у тексті тепер не отримують золотавого підсвічування
+                el.classList.remove('text-amber-400', 'font-semibold');
+            });
+
+            // Оновлення стану кнопок
+            const btnBg = document.getElementById('btn-bg');
+            const btnSr = document.getElementById('btn-sr');
+
+            if (style === 'sr') {
+                btnSr.className = "py-2.5 px-3 rounded-lg bg-zinc-700 text-gray-100 border border-zinc-600 transition-all shadow-md shadow-zinc-950/20 hover:bg-zinc-600";
+                btnBg.className = "py-2.5 px-3 rounded-lg bg-[#212126] text-gray-400 border border-transparent transition-all hover:bg-[#27272e] hover:text-white";
+            } else {
+                btnBg.className = "py-2.5 px-3 rounded-lg bg-zinc-700 text-gray-100 border border-zinc-600 transition-all shadow-md shadow-zinc-950/20 hover:bg-zinc-600";
+                btnSr.className = "py-2.5 px-3 rounded-lg bg-[#212126] text-gray-400 border border-transparent transition-all hover:bg-[#27272e] hover:text-white";
+            }
+
+            // Оновлення демонстраційного поля
+            document.getElementById('compare-regular').setAttribute('lang', style);
+            document.getElementById('compare-italic').setAttribute('lang', style);
+        }
+
+        // Виконує обгортання після завантаження документа
+        window.addEventListener('DOMContentLoaded', () => {
+            wrapBLetters(document.body);
+            // Для дефолтного завантаження сербського написання ("sr")
+            setBStyle('sr');
+        });
+    </script>
+</body>
+</html>
