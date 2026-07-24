@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестер Церковнослов'янських та Історичних Шрифтів</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Web Fonts for Church Slavonic & Historical Cyrillic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Infant:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Pochaevsk&family=Ponomar&family=Ruslan+Display&family=Triodion&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: '#f7f2e7',
+                        'parchment-dark': '#1e1a17',
+                        vermilion: '#c0392b', // Традиційна киновар (червоний колір для заголовок/титлів)
+                        'vermilion-hover': '#962d22',
+                        gold: '#d4af37',
+                    },
+                    fontFamily: {
+                        ponomar: ['Ponomar', 'serif'],
+                        triodion: ['Triodion', 'serif'],
+                        pochaevsk: ['Pochaevsk', 'serif'],
+                        ruslan: ['"Ruslan Display"', 'cursive'],
+                        oldstandard: ['"Old Standard TT"', 'serif'],
+                        cormorant: ['"Cormorant Infant"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Стилізація фону "старовинного паперу" */
+        .bg-parchment-texture {
+            background-color: #f7f2e7;
+            background-image: radial-gradient(#e0d7c3 1px, transparent 1px), radial-gradient(#e0d7c3 1px, #f7f2e7 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .dark .bg-parchment-texture {
+            background-color: #1a1715;
+            background-image: radial-gradient(#2d2824 1px, transparent 1px), radial-gradient(#2d2824 1px, #1a1715 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        /* Стилі кастомного скроллбару */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(192, 57, 43, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(192, 57, 43, 0.7);
+        }
+
+        /* Червоні літери (ініціали / киновар) */
+        .rubricated::first-letter {
+            color: #c0392b;
+            font-weight: bold;
+            font-size: 1.15em;
+        }
+
+        /* Анімації */
+        .card-hover-transition {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover-transition:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-parchment-texture text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200">
+
+    <!-- Navigation / Header -->
+    <header class="border-b border-amber-900/10 dark:border-amber-500/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <a href="index.html" title="Назад до лекції" class="w-10 h-10 rounded-lg bg-vermilion text-white flex items-center justify-center font-triodion text-2xl shadow-md hover:opacity-90 transition">
+                    Ѣ
+                </a>
+                <div>
+                    <h1 class="font-bold text-lg sm:text-xl text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+                        Тестер Церковнослов'янських Шрифтів
+                    </h1>
+                    <p class="text-xs text-amber-800 dark:text-amber-400 font-medium">
+                        Гражданка, Синодальний набір, Почаївський стиль та Устав
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-amber-800/20 text-amber-900 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>До лекції</span>
+                </a>
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Змінити тему">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+                <button onclick="scrollToGuide()" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-amber-800/20 text-amber-900 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Довідка</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Photo Analysis Banner (Contextual match to user's uploaded image) -->
+        <section class="bg-gradient-to-r from-amber-900/10 via-vermilion/5 to-amber-900/10 rounded-2xl p-4 sm:p-5 border border-amber-900/20 dark:border-amber-600/30 shadow-sm relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-vermilion">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <span>Аналіз зразка з вашого фото</span>
+                    </div>
+                    <p class="text-sm sm:text-base font-semibold text-slate-900 dark:text-amber-100">
+                        Фрагмент з фото: <span class="font-triodion text-lg text-vermilion px-1">имъ, ите : ищѣте,</span>
+                    </p>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 max-w-3xl">
+                        На вашому зображенні використано <strong>синодальний друкарський шрифт кінця XIX — початку XX ст.</strong> (поєднання традиційної кирилиці з високими вертикальними пропорціями). Нижче ви можете порівняти, як цей текст виглядає у різних шрифтах.
+                    </p>
+                </div>
+                <button onclick="setSampleFromImage()" class="shrink-0 px-4 py-2 bg-vermilion hover:bg-vermilion-hover text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                    <span>Вставити текст з фото</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Interactive Control Panel -->
+        <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h2 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-vermilion"></i>
+                    <span>Панель керування та вибору тексту</span>
+                </h2>
+                <!-- Preset Dropdown -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label for="presetSelect" class="text-xs font-medium text-slate-500 dark:text-slate-400 shrink-0">Готові пресети:</label>
+                    <select id="presetSelect" onchange="applyPreset(this.value)" class="w-full sm:w-64 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-vermilion">
+                        <option value="user_image">Фрагмент з фото (имъ, ите : ищѣте,)</option>
+                        <option value="alphabet">Слов'янська азбука (А Б В Г Д Е Ѣ Ѧ Ѫ Ѡ Ѯ ѱ Ѳ Ѵ)</option>
+                        <option value="psalm23">Псалом 22 (Господь пасетъ мя...)</option>
+                        <option value="pater_noster">Отче нашъ (Ѿче на́шъ, и́же есе́и на небесѣ́хъ...)</option>
+                        <option value="easter">Пасхальний тропар (Хрⷭ҇то́съ воскре́се...)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Main Input Area -->
+            <div>
+                <label for="textInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">
+                    Введіть свій текст або редагуйте обраний:
+                </label>
+                <textarea id="textInput" rows="2" oninput="updateAllPreviews()" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-vermilion transition font-sans">имъ, ите : ищѣте,</textarea>
+            </div>
+
+            <!-- Virtual Keyboard for Church Slavonic Characters -->
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-amber-900 dark:text-amber-400 flex items-center gap-1">
+                        <i class="fa-regular fa-keyboard"></i> Клавіатура давніх та спеціальних літер (натисніть для вставки):
+                    </span>
+                    <button onclick="clearInput()" class="text-xs text-slate-400 hover:text-vermilion transition">
+                        <i class="fa-solid fa-trash-can"></i> Очистити
+                    </button>
+                </div>
+                <div class="flex flex-wrap gap-1.5 p-2.5 bg-amber-50/60 dark:bg-slate-800/60 rounded-xl border border-amber-900/10 dark:border-slate-700/50">
+                    <!-- Letter Buttons -->
+                    <button onclick="insertChar('Ѣ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Ять великий">Ѣ</button>
+                    <button onclick="insertChar('ѣ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Ять малий">ѣ</button>
+                    <button onclick="insertChar('Ѧ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Малий юс">Ѧ</button>
+                    <button onclick="insertChar('ѧ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Малий юс">ѧ</button>
+                    <button onclick="insertChar('Ѫ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Великий юс">Ѫ</button>
+                    <button onclick="insertChar('ѫ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Великий юс">ѫ</button>
+                    <button onclick="insertChar('Ѡ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Омега">Ѡ</button>
+                    <button onclick="insertChar('ѡ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Омега">ѡ</button>
+                    <button onclick="insertChar('Ѯ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Ксі">Ѯ</button>
+                    <button onclick="insertChar('ѯ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Ксі">ѯ</button>
+                    <button onclick="insertChar('ѱ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Псі">ѱ</button>
+                    <button onclick="insertChar('Ѳ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Фіта">Ѳ</button>
+                    <button onclick="insertChar('ѳ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Фіта">ѳ</button>
+                    <button onclick="insertChar('Ѵ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Іжиця">Ѵ</button>
+                    <button onclick="insertChar('ѵ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Іжиця">ѵ</button>
+                    <button onclick="insertChar('Ѕ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Зіло">Ѕ</button>
+                    <button onclick="insertChar('ѕ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Зіло">ѕ</button>
+                    <button onclick="insertChar('ѿ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="От">ѿ</button>
+                    <button onclick="insertChar('ꙗ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="А йотована">ꙗ</button>
+                    <button onclick="insertChar('ъ')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Твердий знак (єр)">ъ</button>
+                    <button onclick="insertChar('ь')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="М'який знак (єрь)">ь</button>
+                    <button onclick="insertChar('҄')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Камора (надрядковий)">◌҄</button>
+                    <button onclick="insertChar('҇')" class="px-2.5 py-1 text-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md font-triodion hover:bg-vermilion hover:text-white transition shadow-sm" title="Покриття">◌҇</button>
+                </div>
+            </div>
+
+            <!-- Visual Formatting Sliders -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+                <!-- Size Slider -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600 dark:text-slate-400">
+                        <span>Розмір букв:</span>
+                        <span id="fontSizeVal" class="text-vermilion font-bold">32px</span>
+                    </div>
+                    <input type="range" id="fontSizeSlider" min="18" max="72" value="32" oninput="updateFormatting()" class="w-full accent-vermilion cursor-pointer">
+                </div>
+
+                <!-- Line Height Slider -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600 dark:text-slate-400">
+                        <span>Міжрядковий інтервал:</span>
+                        <span id="lineHeightVal" class="text-vermilion font-bold">1.4</span>
+                    </div>
+                    <input type="range" id="lineHeightSlider" min="1.0" max="2.5" step="0.1" value="1.4" oninput="updateFormatting()" class="w-full accent-vermilion cursor-pointer">
+                </div>
+
+                <!-- Letter Spacing Slider -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600 dark:text-slate-400">
+                        <span>Міжбуквений інтервал:</span>
+                        <span id="letterSpacingVal" class="text-vermilion font-bold">0px</span>
+                    </div>
+                    <input type="range" id="letterSpacingSlider" min="-2" max="10" step="0.5" value="0" oninput="updateFormatting()" class="w-full accent-vermilion cursor-pointer">
+                </div>
+
+                <!-- Rubrication Toggle -->
+                <div class="flex items-center justify-between sm:justify-start gap-3 pt-4 sm:pt-0">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="rubricationToggle" onchange="toggleRubrication()" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-vermilion"></div>
+                        <span class="ml-2 text-xs font-semibold text-slate-700 dark:text-slate-300">Киноварь (Червона перша літера)</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Font Cards Showcase Grid -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-font text-vermilion"></i>
+                    <span>Порівняльна вітрина гарнітур та шрифтів</span>
+                </h2>
+                <span class="text-xs text-slate-500 dark:text-slate-400">6 гарнітур підключено</span>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+                <!-- 1. Triodion (Найближчий до вашого фото) -->
+                <div class="bg-white dark:bg-slate-900 border-2 border-vermilion/40 rounded-2xl p-5 shadow-lg card-hover-transition relative flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Triodion (Тріодь)</h3>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold bg-vermilion text-white rounded-full uppercase tracking-wider">Матч з вашим фото</span>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Синодальний друкарський набір кінця XIX – початку XX ст.</p>
+                            </div>
+                            <button onclick="copyFontText('preview-triodion')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <!-- Text Render Area -->
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-triodion" class="font-triodion w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Джерело:</strong> Google Fonts (Aleksandr Andreev)</span>
+                        <button onclick="openGlyphZoom('Triodion', 'font-triodion')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Ponomar (Пономар) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Ponomar (Пономар)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Сучасний канонічний синодальний богослужбовий шрифт</p>
+                            </div>
+                            <button onclick="copyFontText('preview-ponomar')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-ponomar" class="font-ponomar w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Характер:</strong> Класична синодальна печатка</span>
+                        <button onclick="openGlyphZoom('Ponomar', 'font-ponomar')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Pochaevsk (Почаївський) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Pochaevsk (Почаївський)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Традиційне накреслення Свято-Успенської Почаївської Лаври (XIX ст.)</p>
+                            </div>
+                            <button onclick="copyFontText('preview-pochaevsk')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-pochaevsk" class="font-pochaevsk w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Походження:</strong> Українські лаврські видання</span>
+                        <button onclick="openGlyphZoom('Pochaevsk', 'font-pochaevsk')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Old Standard TT (Гражданка) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Old Standard TT (Гражданський шрифт)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Цивільний друкарський шрифт XIX ст. для світської та навчальної літератури</p>
+                            </div>
+                            <button onclick="copyFontText('preview-oldstandard')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-oldstandard" class="font-oldstandard w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Стиль:</strong> Класична антиква / Гражданка</span>
+                        <button onclick="openGlyphZoom('Old Standard TT', 'font-oldstandard')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. Cormorant Infant (Книжкова світська антиква) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Cormorant Infant (Вишуканий книжковий)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Елегантна академічна графіка із збереженням традиційних кириличних форм</p>
+                            </div>
+                            <button onclick="copyFontText('preview-cormorant')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-cormorant" class="font-cormorant w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Використання:</strong> Академічні та наукові тексти</span>
+                        <button onclick="openGlyphZoom('Cormorant Infant', 'font-cormorant')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6. Ruslan Display (Декоративна В'язь / Староруський) -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">Ruslan Display (Заголовочний Устав)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Декоративний заголовочний шрифт у стилі давньоруської в'язі</p>
+                            </div>
+                            <button onclick="copyFontText('preview-ruslan')" class="text-slate-400 hover:text-vermilion transition p-1.5" title="Копіювати текст">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="p-4 bg-amber-50/40 dark:bg-slate-950/60 rounded-xl border border-amber-900/10 dark:border-slate-800 min-h-[100px] flex items-center">
+                            <div id="preview-ruslan" class="font-ruslan w-full text-slate-900 dark:text-amber-50 break-words leading-relaxed">
+                                имъ, ите : ищѣте,
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                        <span><strong>Стиль:</strong> Рукописна в'язь для заголовків</span>
+                        <button onclick="openGlyphZoom('Ruslan Display', 'font-ruslan')" class="text-vermilion font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i> Роздивитися букви ѣ, є, ъ
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Historical & Typographic Reference Guide -->
+        <section id="guideSection" class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-md space-y-5">
+            <div class="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300 flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-900 dark:text-slate-100">Історично-графічна довідка про шрифти з фото</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Як відрізнити канонічний синодальний набір від «гражданки»</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-600 dark:text-slate-300">
+
+                <!-- Feature 1 -->
+                <div class="space-y-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                    <div class="font-bold text-vermilion flex items-center gap-2">
+                        <span class="font-triodion text-xl">ѣ</span>
+                        <span>Літера «Ять» (ѣ)</span>
+                    </div>
+                    <p class="text-xs leading-relaxed">
+                        У синодальних шрифтах (як на фото) ять має витягнуту високу вертикальну вісь та горизонтальну перекладину зі специфічними засічками. У шрифті <strong>Triodion</strong> та <strong>Ponomar</strong> її пропорції точно збігаються з оригінальним відбитком.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="space-y-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                    <div class="font-bold text-vermilion flex items-center gap-2">
+                        <span class="font-triodion text-xl">є / ѣ</span>
+                        <span>Вузьке накреслення «Є»</span>
+                    </div>
+                    <p class="text-xs leading-relaxed">
+                        У церковнослов’янському наборі літера «є» (єсть) має звужене овальне вушко та вигнуту середню горизонтальну риска. Це відрізняє її від сучасної цивільної української «Є».
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="space-y-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                    <div class="font-bold text-vermilion flex items-center gap-2">
+                        <span class="font-triodion text-xl">ъ</span>
+                        <span>Твердий знак (єр) наприкінці</span>
+                    </div>
+                    <p class="text-xs leading-relaxed">
+                        До орфографічних реформ початку XX століття майже кожне слово, що закінчувалося на приголосний, мало наприкінці «ъ» (єр). На вашому фото це видно у слові <strong>«имъ»</strong>.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Detailed Glyph Inspection -->
+    <div id="glyphModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5 relative">
+            <button onclick="closeGlyphZoom()" class="absolute top-4 right-4 text-slate-400 hover:text-vermilion text-lg p-2 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="space-y-1">
+                <h3 id="modalFontTitle" class="text-lg font-bold text-slate-900 dark:text-slate-100">Детальний огляд літер</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Макро-деталізація ключових символів (ѣ, є, ъ, Ѧ, Ѡ)</p>
+            </div>
+
+            <!-- Big Glyph Display -->
+            <div class="p-6 bg-amber-50/50 dark:bg-slate-950 rounded-xl border border-amber-900/10 dark:border-slate-800 text-center space-y-4">
+                <div id="modalGlyphDisplay" class="text-6xl sm:text-7xl text-vermilion leading-none tracking-widest">
+                    ѣ  є  ъ  ищѣте
+                </div>
+                <p class="text-xs text-slate-400">Високий контраст штрихів та характерні засічки синодального набору</p>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="closeGlyphZoom()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+                    Закрити
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base"></i>
+        <span id="toastMsg">Текст скопійовано!</span>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Preset Texts Dataset
+        const PRESETS = {
+            user_image: "имъ, ите : ищѣте,",
+            alphabet: "А Б В Г Д Е Ж Ѕ З И І Ҝ Л М Н О П Р С Т Ѵ Ф Х Ѯ ѱ Ѡ Ѣ Ѧ Ѫ Ѭ",
+            psalm23: "Гдⷭ҇ь пасе́тъ мѧ́, и҆ ничто́же мѧ́ лиши́тъ. На мѣ́стѣ ѕла́чнѣ, та́мѡ восели́ мѧ...",
+            pater_noster: "Ѿче на́шъ, и́же есе́и на небесѣ́хъ! Да ст҃и́тсѧ и́мѧ твое́, да прїи́детъ црⷭ҇твїе твое́...",
+            easter: "Хрⷭ҇то́съ воскре́се и҆з̾ ме́ртвыхъ, сме́ртїю сме́рть попра́въ, и҆ сꙋ́щымъ во гробѣ́хъ живо́тъ дарова́въ."
+        };
+
+        const PREVIEW_IDS = [
+            'preview-triodion',
+            'preview-ponomar',
+            'preview-pochaevsk',
+            'preview-oldstandard',
+            'preview-cormorant',
+            'preview-ruslan'
+        ];
+
+        // Initialize state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAllPreviews();
+            updateFormatting();
+        });
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Preset Application
+        function applyPreset(key) {
+            if (PRESETS[key]) {
+                document.getElementById('textInput').value = PRESETS[key];
+                updateAllPreviews();
+            }
+        }
+
+        function setSampleFromImage() {
+            document.getElementById('presetSelect').value = "user_image";
+            applyPreset("user_image");
+            showToast("Встановлено текст з вашого фото");
+        }
+
+        // Insert Special Character at Cursor Position
+        function insertChar(char) {
+            const input = document.getElementById('textInput');
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+
+            input.value = text.substring(0, start) + char + text.substring(end);
+            input.focus();
+            input.selectionStart = input.selectionEnd = start + char.length;
+
+            updateAllPreviews();
+        }
+
+        function clearInput() {
+            document.getElementById('textInput').value = '';
+            updateAllPreviews();
+        }
+
+        // Dynamic Text Updates Across All Font Cards
+        function updateAllPreviews() {
+            const text = document.getElementById('textInput').value || ' ';
+            PREVIEW_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = text;
+                }
+            });
+        }
+
+        // Formatting Sliders Handler
+        function updateFormatting() {
+            const fontSize = document.getElementById('fontSizeSlider').value;
+            const lineHeight = document.getElementById('lineHeightSlider').value;
+            const letterSpacing = document.getElementById('letterSpacingSlider').value;
+
+            document.getElementById('fontSizeVal').textContent = fontSize + 'px';
+            document.getElementById('lineHeightVal').textContent = lineHeight;
+            document.getElementById('letterSpacingVal').textContent = letterSpacing + 'px';
+
+            PREVIEW_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.fontSize = fontSize + 'px';
+                    el.style.lineHeight = lineHeight;
+                    el.style.letterSpacing = letterSpacing + 'px';
+                }
+            });
+        }
+
+        // Toggle First Letter Rubrication (Red Cinnabar Accent)
+        function toggleRubrication() {
+            const enabled = document.getElementById('rubricationToggle').checked;
+            PREVIEW_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (enabled) {
+                        el.classList.add('rubricated');
+                    } else {
+                        el.classList.remove('rubricated');
+                    }
+                }
+            });
+        }
+
+        // Copy Text Function
+        function copyFontText(elementId) {
+            const text = document.getElementById(elementId).textContent.trim();
+            if (text) {
+                // Use fallback execCommand copy for frame safety
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Текст скопійовано в буфер обміну!');
+                } catch (err) {
+                    showToast('Помилка копіювання');
+                }
+                document.body.removeChild(textarea);
+            }
+        }
+
+        // Glyph Zoom Modal Handler
+        function openGlyphZoom(fontName, fontClass) {
+            const currentText = document.getElementById('textInput').value.trim() || "имъ, ите : ищѣте,";
+            document.getElementById('modalFontTitle').textContent = `Деталізація шрифту: ${fontName}`;
+            const display = document.getElementById('modalGlyphDisplay');
+
+            // Apply font class
+            display.className = `text-5xl sm:text-6xl text-vermilion leading-relaxed tracking-wider ${fontClass}`;
+            display.textContent = currentText;
+
+            document.getElementById('glyphModal').classList.remove('hidden');
+        }
+
+        function closeGlyphZoom() {
+            document.getElementById('glyphModal').classList.add('hidden');
+        }
+
+        // Smooth Scroll to Guide
+        function scrollToGuide() {
+            document.getElementById('guideSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Toast Notification System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
