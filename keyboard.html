@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaviatura JCUKEN</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Triodion&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: '#f7f2e7',
+                        'parchment-dark': '#1e1a17',
+                        vermilion: '#c0392b',
+                        'vermilion-hover': '#962d22',
+                        gold: '#d4af37',
+                    },
+                    fontFamily: {
+                        triodion: ['Triodion', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .bg-parchment-texture {
+            background-color: #f7f2e7;
+            background-image: radial-gradient(#e0d7c3 1px, transparent 1px), radial-gradient(#e0d7c3 1px, #f7f2e7 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        .dark .bg-parchment-texture {
+            background-color: #1a1715;
+            background-image: radial-gradient(#2d2824 1px, transparent 1px), radial-gradient(#2d2824 1px, #1a1715 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(192, 57, 43, 0.4); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(192, 57, 43, 0.7); }
+
+        .key-btn {
+            transition: all 0.08s ease-out;
+        }
+        .key-btn.key-active,
+        .key-btn:active {
+            transform: translateY(2px);
+            background-color: #c0392b !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body class="bg-parchment-texture text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200">
+
+    <!-- Navigation / Header -->
+    <header class="border-b border-amber-900/10 dark:border-amber-500/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <a href="fonts.html" title="Nazad do testera ṡryftiv" class="w-10 h-10 rounded-lg bg-vermilion text-white flex items-center justify-center font-triodion text-2xl shadow-md hover:opacity-90 transition">
+                    Ѣ
+                </a>
+                <div>
+                    <h1 class="font-bold text-lg sm:text-xl text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+                        Klaviatura JCUKEN
+                    </h1>
+                    <p class="text-xs text-amber-800 dark:text-amber-400 font-medium">
+                        Drukujte kyrylyceü za rozkladkoü JCUKEN svojeü zvyċajnoü (latynṣkoü) klaviaturoü
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="fonts.html" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-amber-800/20 text-amber-900 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Do testera ṡryftiv</span>
+                </a>
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Zminyty temu">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Explanation Banner -->
+        <section class="bg-gradient-to-r from-amber-900/10 via-vermilion/5 to-amber-900/10 rounded-2xl p-4 sm:p-5 border border-amber-900/20 dark:border-amber-600/30 shadow-sm">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-info text-vermilion mt-0.5"></i>
+                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    Kożna klaviṡa vstavljaje latynṣku transliteraciü (j, c, u, k, e, n...) tijeji litery, jaka stojiṭ na c̣omu misci v rozkladci <strong>JCUKEN</strong> — sama kyrylyċna litera pokazana lyṡe jak maleṇka pidkazka zverḣu. Drukujte prjamo fizyċnoü klaviaturoü — natyskannja vyznaċajeṭsja za <em>polożennjam</em> klaviṡi, toż rozkladka vaṡoji OS znaċennja ne maje. Shift daje velyku literu. Można takoż prosto klikaty myṡkoü po klaviṡaḣ nyżċe.
+                </p>
+            </div>
+        </section>
+
+        <!-- Output textarea -->
+        <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
+            <div class="flex items-center justify-between">
+                <label for="output" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Vaṡ tekst</label>
+                <div class="flex items-center gap-2">
+                    <button onclick="doBackspace()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-delete-left"></i> Sterty
+                    </button>
+                    <button onclick="clearOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-trash-can"></i> Oċystyty
+                    </button>
+                    <button onclick="copyOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-vermilion hover:bg-vermilion-hover text-white transition">
+                        <i class="fa-regular fa-copy"></i> Kopiüvaty
+                    </button>
+                </div>
+            </div>
+            <textarea id="output" rows="4" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-4 text-2xl font-sans text-slate-900 dark:text-amber-50 focus:outline-none focus:ring-2 focus:ring-vermilion transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
+        </section>
+
+        <!-- Virtual keyboard -->
+        <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
+            <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Virtuaḷna klaviatura</h2>
+            <div id="keyboard" class="space-y-2 select-none"></div>
+            <div class="flex justify-center pt-2">
+                <button onclick="insertChar(' ')" class="key-btn w-64 max-w-full py-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    Probil
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base"></i>
+        <span id="toastMsg">Skopijovano!</span>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // ЙЦУКЕН layout: physical key code -> [Cyrillic letter shown as hint, Latin transliteration actually typed].
+        const ROWS = [
+            [
+                ['KeyQ', 'Й', 'j'], ['KeyW', 'Ц', 'c'], ['KeyE', 'У', 'u'], ['KeyR', 'К', 'k'], ['KeyT', 'Е', 'e'],
+                ['KeyY', 'Н', 'n'], ['KeyU', 'Г', 'h'], ['KeyI', 'Ш', 'ṡ'], ['KeyO', 'Щ', 's̈'], ['KeyP', 'З', 'z'],
+                ['BracketLeft', 'Х', 'ḣ'], ['BracketRight', 'Ї', 'ji']
+            ],
+            [
+                ['KeyA', 'Ф', 'f'], ['KeyS', 'І', 'i'], ['KeyD', 'В', 'v'], ['KeyF', 'А', 'a'], ['KeyG', 'П', 'p'],
+                ['KeyH', 'Р', 'r'], ['KeyJ', 'О', 'o'], ['KeyK', 'Л', 'l'], ['KeyL', 'Д', 'd'],
+                ['Semicolon', 'Ж', 'ż'], ['Quote', 'Є', 'je']
+            ],
+            [
+                ['KeyZ', 'Я', 'ja'], ['KeyX', 'Ч', 'ċ'], ['KeyC', 'С', 's'], ['KeyV', 'М', 'm'], ['KeyB', 'И', 'y'],
+                ['KeyN', 'Т', 't'], ['KeyM', 'Ь', '◌̣', 'dotBelow'], ['Comma', 'Б', 'b'], ['Period', 'Ю', 'ü']
+            ]
+        ];
+
+        // Combining dot below (U+0323) — added under the previously typed letter
+        // instead of being inserted as its own character (used for the soft sign).
+        const DOT_BELOW = '̣';
+
+        function capitalize(s) {
+            return s.length ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+        }
+
+        const codeToLatin = {};
+        const codeToAction = {};
+        ROWS.forEach(row => {
+            row.forEach(([code, , latin, action]) => {
+                codeToLatin[code] = latin;
+                if (action) codeToAction[code] = action;
+            });
+        });
+
+        function buildKeyboard() {
+            const kb = document.getElementById('keyboard');
+            kb.innerHTML = '';
+            ROWS.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'flex justify-center gap-1.5 flex-wrap';
+                row.forEach(([code, cyrillicHint, latin, action]) => {
+                    const btn = document.createElement('button');
+                    btn.dataset.code = code;
+                    btn.className = 'key-btn w-14 h-16 sm:w-16 sm:h-[4.5rem] rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-0.5 shadow-sm hover:bg-amber-50 dark:hover:bg-slate-700';
+                    btn.innerHTML = `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-lg text-vermilion">${latin}</span>`;
+                    btn.onclick = action === 'dotBelow' ? () => addDotBelow() : () => insertChar(latin);
+                    rowDiv.appendChild(btn);
+                });
+                kb.appendChild(rowDiv);
+            });
+        }
+
+        function insertChar(ch) {
+            const el = document.getElementById('output');
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            el.value = el.value.substring(0, start) + ch + el.value.substring(end);
+            el.focus();
+            el.selectionStart = el.selectionEnd = start + ch.length;
+        }
+
+        // Places a combining dot below (U+0323) right after the previously typed
+        // character, e.g. turns "c" into "c̣" — used for the soft sign key.
+        function addDotBelow() {
+            const el = document.getElementById('output');
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            if (start !== end || start === 0) return;
+            el.value = el.value.substring(0, start) + DOT_BELOW + el.value.substring(start);
+            el.focus();
+            el.selectionStart = el.selectionEnd = start + DOT_BELOW.length;
+        }
+
+        function doBackspace() {
+            const el = document.getElementById('output');
+            const start = el.selectionStart ?? el.value.length;
+            const end = el.selectionEnd ?? el.value.length;
+            if (start === end && start > 0) {
+                el.value = el.value.substring(0, start - 1) + el.value.substring(end);
+                el.focus();
+                el.selectionStart = el.selectionEnd = start - 1;
+            } else if (start !== end) {
+                el.value = el.value.substring(0, start) + el.value.substring(end);
+                el.focus();
+                el.selectionStart = el.selectionEnd = start;
+            }
+        }
+
+        function clearOutput() {
+            document.getElementById('output').value = '';
+            document.getElementById('output').focus();
+        }
+
+        function copyOutput() {
+            const el = document.getElementById('output');
+            el.select();
+            try {
+                document.execCommand('copy');
+                showToast('Skopijovano v bufer obminu!');
+            } catch (err) {
+                showToast('Pomylka kopiüvannja');
+            }
+            el.setSelectionRange(el.value.length, el.value.length);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
+        }
+
+        function flashKey(code, on) {
+            const btn = document.querySelector(`#keyboard button[data-code="${code}"]`);
+            if (btn) btn.classList.toggle('key-active', on);
+        }
+
+        // Physical keyboard support: intercept only the codes we've mapped, so
+        // Space/Backspace/Enter/arrows and browser shortcuts keep working normally.
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement && document.activeElement.tagName === 'TEXTAREA' && codeToLatin[e.code] && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                e.preventDefault();
+                if (codeToAction[e.code] === 'dotBelow') {
+                    addDotBelow();
+                } else {
+                    insertChar(e.shiftKey ? capitalize(codeToLatin[e.code]) : codeToLatin[e.code]);
+                }
+                flashKey(e.code, true);
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (codeToLatin[e.code]) flashKey(e.code, false);
+        });
+
+        buildKeyboard();
+    </script>
+</body>
+</html>
