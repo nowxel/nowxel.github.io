@@ -793,8 +793,10 @@
         }
 
         async function callGeminiApi(promptText, systemInstruction = "", base64ImageData = null) {
-            const apiKey = "AIzaSyDq7UolOak5oVBKVgRD2iB9h7CTrSaqD78";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            // Requests go through a Cloudflare Worker proxy that holds the real
+            // Gemini API key as a server-side secret — the key never appears
+            // in this public repo/HTML, so it can't be leaked or scanned.
+            const apiUrl = "https://proud-butterfly-38a8.nowxel.workers.dev";
 
             const parts = [{ text: promptText }];
 
