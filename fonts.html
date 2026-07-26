@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестер Церковнослов'янських та Історичних Шрифтів</title>
+    <title>Тестер Церковнослов'янських Шрифтів & AI Палеограф</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -51,7 +51,6 @@
     </script>
 
     <style>
-        /* Стилізація фону "старовинного паперу" */
         .bg-parchment-texture {
             background-color: #f7f2e7;
             background-image: radial-gradient(#e0d7c3 1px, transparent 1px), radial-gradient(#e0d7c3 1px, #f7f2e7 1px);
@@ -96,6 +95,14 @@
         .card-hover-transition:hover {
             transform: translateY(-2px);
         }
+
+        .pulse-subtle {
+            animation: pulseSubtle 2s infinite;
+        }
+        @keyframes pulseSubtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
     </style>
 </head>
 
@@ -109,11 +116,16 @@
                     Ѣ
                 </a>
                 <div>
-                    <h1 class="font-bold text-lg sm:text-xl text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
-                        Тестер Церковнослов'янських Шрифтів
-                    </h1>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-lg sm:text-xl text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+                            Тестер Церковнослов'янських Шрифтів
+                        </h1>
+                        <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-900 dark:text-amber-300 rounded-full border border-amber-500/30 flex items-center gap-1">
+                            <i class="fa-solid fa-wand-magic-sparkles text-vermilion"></i> AI Gemini 3
+                        </span>
+                    </div>
                     <p class="text-xs text-amber-800 dark:text-amber-400 font-medium">
-                        Гражданка, Синодальний набір, Почаївський стиль та Устав
+                        Гражданка, Синодальний набір, Почаївський стиль, Устав та AI Палеографія
                     </p>
                 </div>
             </div>
@@ -124,6 +136,10 @@
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>До лекції</span>
                 </a>
+                <button onclick="scrollToAiSection()" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-amber-900/10 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 hover:bg-amber-900/20 transition">
+                    <i class="fa-solid fa-brain text-vermilion"></i>
+                    <span>AI Інструменти</span>
+                </button>
                 <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Змінити тему">
                     <i class="fa-solid fa-moon dark:hidden"></i>
                     <i class="fa-solid fa-sun hidden dark:inline"></i>
@@ -139,7 +155,7 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- Photo Analysis Banner (Contextual match to user's uploaded image) -->
+        <!-- Photo Analysis Banner -->
         <section class="bg-gradient-to-r from-amber-900/10 via-vermilion/5 to-amber-900/10 rounded-2xl p-4 sm:p-5 border border-amber-900/20 dark:border-amber-600/30 shadow-sm relative overflow-hidden">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div class="space-y-1">
@@ -151,13 +167,157 @@
                         Фрагмент з фото: <span class="font-triodion text-lg text-vermilion px-1">имъ, ите : ищѣте,</span>
                     </p>
                     <p class="text-xs text-slate-600 dark:text-slate-300 max-w-3xl">
-                        На вашому зображенні використано <strong>синодальний друкарський шрифт кінця XIX — початку XX ст.</strong> (поєднання традиційної кирилиці з високими вертикальними пропорціями). Нижче ви можете порівняти, як цей текст виглядає у різних шрифтах.
+                        На вашому зображенні використано <strong>синодальний друкарський шрифт кінця XIX — початку XX ст.</strong> Скористайтеся AI для глибокого аналізу або перекладу власного зображення книжки чи манускрипту!
                     </p>
                 </div>
-                <button onclick="setSampleFromImage()" class="shrink-0 px-4 py-2 bg-vermilion hover:bg-vermilion-hover text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                    <span>Вставити текст з фото</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button onclick="setSampleFromImage()" class="shrink-0 px-3.5 py-2 bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        <span>Текст з фото</span>
+                    </button>
+                    <button onclick="openOcrTabWithImage()" class="shrink-0 px-4 py-2 bg-vermilion hover:bg-vermilion-hover text-white text-xs sm:text-sm font-semibold rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>AI Сканер Фото</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI PALAEOGRAPHY & LLM ASSISTANT SECTION -->
+        <section id="aiSection" class="bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-vermilion/30 shadow-lg space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-vermilion/10 text-vermilion flex items-center justify-center text-base font-bold">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-900 dark:text-slate-100 text-base flex items-center gap-2">
+                            <span>AI Палеографічний Помічник Gemini 3</span>
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Автоматичний орфограф, OCR розпізнавання стародруків та лінгвістичний аналіз</p>
+                    </div>
+                </div>
+
+                <!-- AI Feature Tabs -->
+                <div class="flex flex-wrap items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+                    <button id="tabBtn-translate" onclick="switchAiTab('translate')" class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-vermilion shadow-sm transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-language"></i>
+                        <span>AI Перекладач</span>
+                    </button>
+                    <button id="tabBtn-ocr" onclick="switchAiTab('ocr')" class="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-vermilion transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>AI OCR Фото</span>
+                    </button>
+                    <button id="tabBtn-analyze" onclick="switchAiTab('analyze')" class="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-vermilion transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-magnifying-glass-code"></i>
+                        <span>Розбір тексту</span>
+                    </button>
+                    <button id="tabBtn-generate" onclick="switchAiTab('generate')" class="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-vermilion transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                        <span>Генератор текстів</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: AI TRANSLATOR & ORTHOGRAPHER -->
+            <div id="aiTab-translate" class="space-y-4">
+                <p class="text-xs text-slate-600 dark:text-slate-300">
+                    Введіть сучасний текст (українською чи російською), і Gemini перекладе його в правильну церковнослов'янську орфографію з ятями (ѣ), юсами (Ѧ), омегами (Ѡ), титлами та твердими знаками (ъ).
+                </p>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="aiTranslateInput" placeholder="Наприклад: Світло істина і життя вічне" class="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-vermilion text-slate-900 dark:text-slate-100">
+                    <button onclick="runAiTranslation()" id="aiTranslateBtn" class="px-5 py-2.5 bg-vermilion hover:bg-vermilion-hover text-white text-xs sm:text-sm font-semibold rounded-xl shadow transition flex items-center justify-center gap-2 shrink-0">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Перекласти в ЦСМ</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: AI OCR & MANUSCRIPT SCANNER -->
+            <div id="aiTab-ocr" class="hidden space-y-4">
+                <p class="text-xs text-slate-600 dark:text-slate-300">
+                    Завантажте фото манускрипту, ікони, старовинного друку або рукопису. Gemini розпізнає текст, визначить тип шрифту (Устав, Скоропис, Синодальний) та надасть розшифровку.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 text-center bg-slate-50 dark:bg-slate-950/50 flex flex-col items-center justify-center min-h-[160px] relative hover:border-vermilion transition">
+                        <input type="file" id="ocrFileInput" accept="image/*" onchange="handleImageSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                        <div id="ocrUploadPlaceholder" class="space-y-2 pointer-events-none">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-800/40 dark:text-amber-400/40"></i>
+                            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Натисніть або перетягніть фото сюди</p>
+                            <p class="text-[11px] text-slate-400">Підтримуються JPG, PNG, WEBP</p>
+                        </div>
+                        <img id="ocrImagePreview" class="hidden max-h-36 rounded-lg shadow border border-slate-200 dark:border-slate-700 object-contain" alt="Зразок">
+                    </div>
+
+                    <div class="flex flex-col justify-between space-y-3">
+                        <div class="text-xs text-slate-500 space-y-1">
+                            <span class="font-bold text-slate-700 dark:text-slate-300">Промпт для аналізу:</span>
+                            <textarea id="ocrCustomPrompt" rows="2" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs focus:ring-1 focus:ring-vermilion">Розпізнай церковнослов'янський текст з цього фото, визнач стиль шрифту/письма та переклади українською.</textarea>
+                        </div>
+                        <button onclick="runAiOcr()" id="aiOcrBtn" disabled class="w-full py-2.5 bg-slate-300 dark:bg-slate-800 text-slate-500 text-xs sm:text-sm font-semibold rounded-xl shadow transition flex items-center justify-center gap-2 cursor-not-allowed">
+                            <i class="fa-solid fa-microscope"></i>
+                            <span>Проаналізувати фото з Gemini</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: LINGUISTIC TEXT ANALYSIS -->
+            <div id="aiTab-analyze" class="hidden space-y-4">
+                <p class="text-xs text-slate-600 dark:text-slate-300">
+                    Отримайте повний палеографічний та лінгвістичний аналіз тексту з вашого поля редагування (словоформи, аорист, титли, старослов'янська етимологія).
+                </p>
+                <div class="flex justify-between items-center bg-amber-50/60 dark:bg-slate-800/60 p-3 rounded-xl border border-amber-900/10">
+                    <span class="text-xs font-semibold text-amber-900 dark:text-amber-300">
+                        Поточний текст: <strong id="analyzeCurrentTextDisplay" class="font-triodion text-sm text-vermilion px-1">имъ, ите : ищѣте,</strong>
+                    </span>
+                    <button onclick="runAiAnalysis()" id="aiAnalyzeBtn" class="px-4 py-2 bg-vermilion hover:bg-vermilion-hover text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        <span>Зробити AI розбір</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 4: HISTORICAL TEXT GENERATOR -->
+            <div id="aiTab-generate" class="hidden space-y-4">
+                <p class="text-xs text-slate-600 dark:text-slate-300">
+                    Згенеруйте автентичний церковнослов'янський текст за будь-якою тематикою для випробування шрифтів.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="runAiGenerate('Козацький напис на дзвоні або гарматі XVII століття з описом майстра та датою')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-xs text-slate-700 dark:text-slate-200 rounded-lg transition border border-slate-200 dark:border-slate-700">
+                        ⚔️ Напис на гарматі XVII ст.
+                    </button>
+                    <button onclick="runAiGenerate('Острозька Біблія: фрагмент з книги Буття про створення світу церковнослов\'янською')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-xs text-slate-700 dark:text-slate-200 rounded-lg transition border border-slate-200 dark:border-slate-700">
+                        📖 Фрагмент Острозької Біблії
+                    </button>
+                    <button onclick="runAiGenerate('Великодний або Різдвяний церковнослов\'янський кондак з титлами')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-xs text-slate-700 dark:text-slate-200 rounded-lg transition border border-slate-200 dark:border-slate-700">
+                        🔔 Святковий Кондак
+                    </button>
+                    <button onclick="runAiGenerate('Старовинний дарчий напис на рукописній книзі XVIII століття')" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-xs text-slate-700 dark:text-slate-200 rounded-lg transition border border-slate-200 dark:border-slate-700">
+                        📜 Вкладний напис на книзі
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Output Results Container -->
+            <div id="aiOutputContainer" class="hidden rounded-xl border border-amber-900/20 dark:border-slate-700 bg-amber-50/40 dark:bg-slate-950/80 p-4 space-y-3 relative">
+                <!-- Loading Spinner -->
+                <div id="aiLoader" class="hidden flex items-center justify-center gap-3 py-6 text-vermilion">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 pulse-subtle">Gemini аналізує та генерує церковнослов'янський текст...</span>
+                </div>
+
+                <!-- AI Response Text -->
+                <div id="aiResponseContent" class="space-y-2 text-xs sm:text-sm text-slate-800 dark:text-slate-200"></div>
+
+                <!-- Action Button to apply output -->
+                <div id="aiActionFooter" class="hidden flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-amber-900/10 dark:border-slate-800">
+                    <span class="text-[11px] text-slate-400">Згенеровано за допомогою Gemini 3 Flash</span>
+                    <button onclick="applyAiTextToEditor()" class="px-4 py-2 bg-vermilion hover:bg-vermilion-hover text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-down-to-square"></i>
+                        <span>Вставити згенерований текст у тестер</span>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -280,7 +440,7 @@
             <!-- Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-                <!-- 1. Triodion (Найближчий до вашого фото) -->
+                <!-- 1. Triodion (Найближчий до фото) -->
                 <div class="bg-white dark:bg-slate-900 border-2 border-vermilion/40 rounded-2xl p-5 shadow-lg card-hover-transition relative flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -312,7 +472,7 @@
                     </div>
                 </div>
 
-                <!-- 2. Ponomar (Пономар) -->
+                <!-- 2. Ponomar -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -340,7 +500,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Pochaevsk (Почаївський) -->
+                <!-- 3. Pochaevsk -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -368,7 +528,7 @@
                     </div>
                 </div>
 
-                <!-- 4. Old Standard TT (Гражданка) -->
+                <!-- 4. Old Standard TT -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -396,7 +556,7 @@
                     </div>
                 </div>
 
-                <!-- 5. Cormorant Infant (Книжкова світська антиква) -->
+                <!-- 5. Cormorant Infant -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -424,7 +584,7 @@
                     </div>
                 </div>
 
-                <!-- 6. Ruslan Display (Декоративна В'язь / Староруський) -->
+                <!-- 6. Ruslan Display -->
                 <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm card-hover-transition flex flex-col justify-between">
                     <div class="space-y-3">
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
@@ -481,7 +641,7 @@
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="space-y-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div class="space-y-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
                     <div class="font-bold text-vermilion flex items-center gap-2">
                         <span class="font-triodion text-xl">є / ѣ</span>
                         <span>Вузьке накреслення «Є»</span>
@@ -537,11 +697,11 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <i class="fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base"></i>
+        <i id="toastIcon" class="fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base"></i>
         <span id="toastMsg">Текст скопійовано!</span>
     </div>
 
-    <!-- Application Logic Script -->
+    <!-- Application Logic & Gemini API Script -->
     <script>
         // Preset Texts Dataset
         const PRESETS = {
@@ -561,18 +721,250 @@
             'preview-ruslan'
         ];
 
+        let selectedBase64Image = null;
+        let lastGeneratedSlavonicText = "";
+
         // Initialize state on load
         window.addEventListener('DOMContentLoaded', () => {
             updateAllPreviews();
             updateFormatting();
         });
 
-        // Theme Toggle
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
         }
 
-        // Preset Application
+        function scrollToGuide() {
+            document.getElementById('guideSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToAiSection() {
+            document.getElementById('aiSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function switchAiTab(tabName) {
+            const tabs = ['translate', 'ocr', 'analyze', 'generate'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tabBtn-${t}`);
+                const tabContent = document.getElementById(`aiTab-${t}`);
+                if (t === tabName) {
+                    btn.className = "px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 text-vermilion shadow-sm transition flex items-center gap-1.5 font-bold";
+                    tabContent.classList.remove('hidden');
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-vermilion transition flex items-center gap-1.5";
+                    tabContent.classList.add('hidden');
+                }
+            });
+
+            if (tabName === 'analyze') {
+                const text = document.getElementById('textInput').value.trim() || "имъ, ите : ищѣте,";
+                document.getElementById('analyzeCurrentTextDisplay').textContent = text;
+            }
+        }
+
+        function openOcrTabWithImage() {
+            scrollToAiSection();
+            switchAiTab('ocr');
+        }
+
+        // Handle Image Selection for OCR
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedBase64Image = e.target.result;
+                const imgPreview = document.getElementById('ocrImagePreview');
+                imgPreview.src = selectedBase64Image;
+                imgPreview.classList.remove('hidden');
+                document.getElementById('ocrUploadPlaceholder').classList.add('hidden');
+
+                const btn = document.getElementById('aiOcrBtn');
+                btn.disabled = false;
+                btn.className = "w-full py-2.5 bg-vermilion hover:bg-vermilion-hover text-white text-xs sm:text-sm font-semibold rounded-xl shadow transition flex items-center justify-center gap-2 cursor-pointer";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function callGeminiApi(promptText, systemInstruction = "", base64ImageData = null) {
+            const apiKey = "AIzaSyDq7UolOak5oVBKVgRD2iB9h7CTrSaqD78";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const parts = [{ text: promptText }];
+
+            if (base64ImageData) {
+                const cleanBase64 = base64ImageData.replace(/^data:image\/\w+;base64,/, "");
+                const mimeMatch = base64ImageData.match(/^data:(image\/\w+);base64,/);
+                const mimeType = mimeMatch ? mimeMatch[1] : "image/jpeg";
+                parts.push({
+                    inlineData: {
+                        mimeType: mimeType,
+                        data: cleanBase64
+                    }
+                });
+            }
+
+            const payload = {
+                contents: [{ role: "user", parts: parts }]
+            };
+
+            if (systemInstruction) {
+                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+            }
+
+            let delay = 1000;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Помилка: Не вдалося отримати відповідь від Gemini.";
+                } catch (err) {
+                    if (attempt === 2) throw err;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        function showAiLoader() {
+            document.getElementById('aiOutputContainer').classList.remove('hidden');
+            document.getElementById('aiLoader').classList.remove('hidden');
+            document.getElementById('aiResponseContent').innerHTML = '';
+            document.getElementById('aiActionFooter').classList.add('hidden');
+        }
+
+        function hideAiLoader(htmlContent, rawSlavonicExtract = "") {
+            document.getElementById('aiLoader').classList.add('hidden');
+            document.getElementById('aiResponseContent').innerHTML = htmlContent;
+
+            if (rawSlavonicExtract) {
+                lastGeneratedSlavonicText = rawSlavonicExtract;
+                document.getElementById('aiActionFooter').classList.remove('hidden');
+            } else {
+                document.getElementById('aiActionFooter').classList.add('hidden');
+            }
+        }
+
+        // AI Feature 1: Translation
+        async function runAiTranslation() {
+            const input = document.getElementById('aiTranslateInput').value.trim();
+            if (!input) {
+                showToast("Введіть текст для перекладу", true);
+                return;
+            }
+
+            showAiLoader();
+            const systemPrompt = "Ти — видатний експерт із церковнослов'янської мови, палеографії та старослов'янської орфографії. Твоє завдання — точно перекласти наданий текст у канонічну церковнослов'янську орфографію (з ятями ѣ, юсами Ѧ, омегами ѡ, титлами ҇ та твердими знаками ъ наприкінці слів). Потім надати короткий коментар.";
+            const userPrompt = `Переклади даний текст у церковнослов'янську мову з ятями та титлами: "${input}".
+Формат відповіді:
+1. Спочатку рядок зі строгим церковнослов'янським текстом у форматі [CS]текст[/CS].
+2. Далі пояснення використовуваних літер та граматики.`;
+
+            try {
+                const text = await callGeminiApi(userPrompt, systemPrompt);
+
+                // Extract [CS]text[/CS]
+                const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
+                const slavonicText = match ? match[1].trim() : "";
+
+                const formattedHtml = text
+                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
+                    .replace(/\n/g, '<br>');
+
+                hideAiLoader(formattedHtml, slavonicText);
+            } catch (err) {
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка запиту до Gemini API. Перевірте з'єднання.</p>`);
+            }
+        }
+
+        // AI Feature 2: OCR Analysis
+        async function runAiOcr() {
+            if (!selectedBase64Image) {
+                showToast("Будь ласка, завантажте зображення", true);
+                return;
+            }
+
+            showAiLoader();
+            const customPrompt = document.getElementById('ocrCustomPrompt').value;
+            const systemPrompt = "Ти — академічний палеограф та текстолог. Проаналізуй церковнослов'янський/старослов'янський фрагмент з фото. Транскрибуй текст точно за правилами, визнач графіку/шрифт (Устав, Полустав, Скоропис, Синодальна друкарня XIX ст., Гражданка) та переклади сучасною українською.";
+            const prompt = `${customPrompt}\n Обов'язково надай транскрибований церковнослов'янський текст у тегу [CS]текст[/CS].`;
+
+            try {
+                const text = await callGeminiApi(prompt, systemPrompt, selectedBase64Image);
+
+                const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
+                const slavonicText = match ? match[1].trim() : "";
+
+                const formattedHtml = text
+                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
+                    .replace(/\n/g, '<br>');
+
+                hideAiLoader(formattedHtml, slavonicText);
+            } catch (err) {
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Не вдалося розпізнати фото через Gemini API.</p>`);
+            }
+        }
+
+        // AI Feature 3: Text Analysis
+        async function runAiAnalysis() {
+            const currentText = document.getElementById('textInput').value.trim() || "имъ, ите : ищѣте,";
+            showAiLoader();
+
+            const systemPrompt = "Ти — професійний мовознавець-славіст. Зроби граматичний, морфологічний та етимологічний аналіз даного церковнослов'янського тексту.";
+            const prompt = `Проаналізуй церковнослов'янський текст: "${currentText}". Поясни словоформи, значення титлів чи рідкісних літер, а також вкажи сучасні українські відповідники.`;
+
+            try {
+                const text = await callGeminiApi(prompt, systemPrompt);
+                const formattedHtml = text.replace(/\n/g, '<br>');
+                hideAiLoader(formattedHtml, "");
+            } catch (err) {
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка аналізу тексту.</p>`);
+            }
+        }
+
+        // AI Feature 4: Historical Generator
+        async function runAiGenerate(themePrompt) {
+            showAiLoader();
+            const systemPrompt = "Ти — джерелознавець та майстер старовинної церковнослов'янської каліграфії. Згенеруй автентичний фрагмент церковнослов'янського тексту за вказаною темематикою.";
+            const prompt = `Згенеруй текст за темою: "${themePrompt}".
+Вимоги:
+- Використовуй правильну церковнослов'янську графіку (ѣ, Ѧ, ѡ, ъ, титли).
+- Помісти підсумковий текст у форматі [CS]текст[/CS].
+- Нижче надай короткий історичний контекст українською.`;
+
+            try {
+                const text = await callGeminiApi(prompt, systemPrompt);
+                const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
+                const slavonicText = match ? match[1].trim() : "";
+
+                const formattedHtml = text
+                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
+                    .replace(/\n/g, '<br>');
+
+                hideAiLoader(formattedHtml, slavonicText);
+            } catch (err) {
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка генерації тексту.</p>`);
+            }
+        }
+
+        // Apply generated text directly into the main tester
+        function applyAiTextToEditor() {
+            if (lastGeneratedSlavonicText) {
+                document.getElementById('textInput').value = lastGeneratedSlavonicText;
+                updateAllPreviews();
+                showToast("Текст вставлено в усі картки шрифтів!");
+                document.getElementById('textInput').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         function applyPreset(key) {
             if (PRESETS[key]) {
                 document.getElementById('textInput').value = PRESETS[key];
@@ -586,7 +978,6 @@
             showToast("Встановлено текст з вашого фото");
         }
 
-        // Insert Special Character at Cursor Position
         function insertChar(char) {
             const input = document.getElementById('textInput');
             const start = input.selectionStart;
@@ -605,7 +996,6 @@
             updateAllPreviews();
         }
 
-        // Dynamic Text Updates Across All Font Cards
         function updateAllPreviews() {
             const text = document.getElementById('textInput').value || ' ';
             PREVIEW_IDS.forEach(id => {
@@ -614,9 +1004,12 @@
                     el.textContent = text;
                 }
             });
+
+            // Sync with analysis tab display if visible
+            const analyzeDisplay = document.getElementById('analyzeCurrentTextDisplay');
+            if (analyzeDisplay) analyzeDisplay.textContent = text;
         }
 
-        // Formatting Sliders Handler
         function updateFormatting() {
             const fontSize = document.getElementById('fontSizeSlider').value;
             const lineHeight = document.getElementById('lineHeightSlider').value;
@@ -636,7 +1029,6 @@
             });
         }
 
-        // Toggle First Letter Rubrication (Red Cinnabar Accent)
         function toggleRubrication() {
             const enabled = document.getElementById('rubricationToggle').checked;
             PREVIEW_IDS.forEach(id => {
@@ -651,11 +1043,9 @@
             });
         }
 
-        // Copy Text Function
         function copyFontText(elementId) {
             const text = document.getElementById(elementId).textContent.trim();
             if (text) {
-                // Use fallback execCommand copy for frame safety
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);
@@ -664,19 +1054,17 @@
                     document.execCommand('copy');
                     showToast('Текст скопійовано в буфер обміну!');
                 } catch (err) {
-                    showToast('Помилка копіювання');
+                    showToast('Помилка копіювання', true);
                 }
                 document.body.removeChild(textarea);
             }
         }
 
-        // Glyph Zoom Modal Handler
         function openGlyphZoom(fontName, fontClass) {
             const currentText = document.getElementById('textInput').value.trim() || "имъ, ите : ищѣте,";
             document.getElementById('modalFontTitle').textContent = `Деталізація шрифту: ${fontName}`;
             const display = document.getElementById('modalGlyphDisplay');
 
-            // Apply font class
             display.className = `text-5xl sm:text-6xl text-vermilion leading-relaxed tracking-wider ${fontClass}`;
             display.textContent = currentText;
 
@@ -687,15 +1075,18 @@
             document.getElementById('glyphModal').classList.add('hidden');
         }
 
-        // Smooth Scroll to Guide
-        function scrollToGuide() {
-            document.getElementById('guideSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Toast Notification System
-        function showToast(message) {
+        function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+
             document.getElementById('toastMsg').textContent = message;
+
+            if (isError) {
+                icon.className = "fa-solid fa-triangle-exclamation text-red-400 text-base";
+            } else {
+                icon.className = "fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base";
+            }
+
             toast.classList.remove('translate-y-20', 'opacity-0');
 
             setTimeout(() => {
