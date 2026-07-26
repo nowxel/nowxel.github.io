@@ -827,12 +827,15 @@
                         body: JSON.stringify(payload)
                     });
                     if (!response.ok) {
-                        throw new Error(`HTTP error ${response.status}`);
+                        let bodyText = '';
+                        try { bodyText = await response.text(); } catch (_) {}
+                        throw new Error(`HTTP ${response.status}: ${bodyText || response.statusText}`);
                     }
                     const data = await response.json();
                     return data.candidates?.[0]?.content?.parts?.[0]?.text || "Помилка: Не вдалося отримати відповідь від Gemini.";
                 } catch (err) {
-                    if (attempt === 2) throw err;
+                    // Don't retry on a definitive client error (4xx) — retrying won't fix a bad key/model/request.
+                    if (attempt === 2 || (err.message && /^HTTP 4\d\d/.test(err.message))) throw err;
                     await new Promise(res => setTimeout(res, delay));
                     delay *= 2;
                 }
@@ -886,7 +889,7 @@
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
-                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка запиту до Gemini API. Перевірте з'єднання.</p>`);
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка запиту до Gemini API.</p><p class="text-[11px] text-slate-400 font-mono mt-1 break-all">${(err.message || err).toString()}</p>`);
             }
         }
 
@@ -914,7 +917,7 @@
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
-                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Не вдалося розпізнати фото через Gemini API.</p>`);
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Не вдалося розпізнати фото через Gemini API.</p><p class="text-[11px] text-slate-400 font-mono mt-1 break-all">${(err.message || err).toString()}</p>`);
             }
         }
 
@@ -931,7 +934,7 @@
                 const formattedHtml = text.replace(/\n/g, '<br>');
                 hideAiLoader(formattedHtml, "");
             } catch (err) {
-                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка аналізу тексту.</p>`);
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка аналізу тексту.</p><p class="text-[11px] text-slate-400 font-mono mt-1 break-all">${(err.message || err).toString()}</p>`);
             }
         }
 
@@ -956,7 +959,7 @@
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
-                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка генерації тексту.</p>`);
+                hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка генерації тексту.</p><p class="text-[11px] text-slate-400 font-mono mt-1 break-all">${(err.message || err).toString()}</p>`);
             }
         }
 
