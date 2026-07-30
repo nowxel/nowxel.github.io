@@ -177,6 +177,9 @@
             [
                 ['KeyZ', 'Я', 'ja'], ['KeyX', 'Ч', 'ċ'], ['KeyC', 'С', 's'], ['KeyV', 'М', 'm'], ['KeyB', 'И', 'y'],
                 ['KeyN', 'Т', 't'], ['KeyM', 'Ь', '◌̣', 'dotBelow'], ['Comma', 'Б', 'b'], ['Period', 'Ю', 'ü']
+            ],
+            [
+                ['Backquote', 'Ґ', 'g'], ['VirtualComma', '', ','], ['VirtualPeriod', '', '.'], ['VirtualBackspace', '', '⌫', 'backspace']
             ]
         ];
 
@@ -208,7 +211,9 @@
                     btn.dataset.code = code;
                     btn.className = 'key-btn flex-1 min-w-0 max-w-[3.5rem] aspect-[4/5] sm:w-14 sm:h-16 sm:flex-none sm:max-w-none lg:w-16 lg:h-[4.5rem] rounded sm:rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-0 sm:gap-0.5 shadow-sm hover:bg-amber-50 dark:hover:bg-slate-700 overflow-hidden';
                     btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-xs sm:text-lg text-vermilion">${latin}</span>`;
-                    btn.onclick = action === 'dotBelow' ? () => addDotBelow() : () => insertChar(latin);
+                    btn.onclick = action === 'dotBelow' ? () => addDotBelow()
+                        : action === 'backspace' ? () => doBackspace()
+                        : () => insertChar(latin);
                     rowDiv.appendChild(btn);
                 });
                 kb.appendChild(rowDiv);
