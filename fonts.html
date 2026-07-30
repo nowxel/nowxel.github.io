@@ -851,6 +851,87 @@
             document.getElementById('aiActionFooter').classList.add('hidden');
         }
 
+        // --- Lightweight Markdown -> HTML rendering for Gemini responses ---
+        // Gemini tends to answer with markdown (headers, **bold**, - lists...).
+        // We only ever inserted raw text before, so all that markdown syntax
+        // showed up as literal stray symbols. This escapes the text first
+        // (safe against HTML injection) and then converts common markdown.
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function inlineMarkdown(text) {
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/(^|[^*])\*(?!\*)([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+                .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 bg-slate-200 dark:bg-slate-800 rounded text-xs">$1</code>');
+        }
+
+        function renderMarkdownLite(md) {
+            const lines = md.split('\n');
+            let html = '';
+            let inList = null;
+            let paragraphBuffer = [];
+
+            const flushParagraph = () => {
+                if (paragraphBuffer.length) {
+                    html += `<p class="mb-2">${paragraphBuffer.join('<br>')}</p>`;
+                    paragraphBuffer = [];
+                }
+            };
+            const closeList = () => {
+                if (inList) { html += `</${inList}>`; inList = null; }
+            };
+
+            for (const rawLine of lines) {
+                const line = rawLine.trim();
+                if (!line) { flushParagraph(); closeList(); continue; }
+
+                const headerMatch = line.match(/^#{1,4}\s+(.*)$/);
+                if (headerMatch) {
+                    flushParagraph(); closeList();
+                    html += `<h4 class="font-bold text-sm mt-2 mb-1 text-vermilion">${inlineMarkdown(headerMatch[1])}</h4>`;
+                    continue;
+                }
+
+                const bulletMatch = line.match(/^[-*]\s+(.*)$/);
+                if (bulletMatch) {
+                    flushParagraph();
+                    if (inList !== 'ul') { closeList(); html += '<ul class="list-disc list-inside space-y-1 mb-2">'; inList = 'ul'; }
+                    html += `<li>${inlineMarkdown(bulletMatch[1])}</li>`;
+                    continue;
+                }
+
+                const numberedMatch = line.match(/^\d+[.)]\s+(.*)$/);
+                if (numberedMatch) {
+                    flushParagraph();
+                    if (inList !== 'ol') { closeList(); html += '<ol class="list-decimal list-inside space-y-1 mb-2">'; inList = 'ol'; }
+                    html += `<li>${inlineMarkdown(numberedMatch[1])}</li>`;
+                    continue;
+                }
+
+                closeList();
+                paragraphBuffer.push(inlineMarkdown(line));
+            }
+            flushParagraph();
+            closeList();
+            return html;
+        }
+
+        // Extracts the [CS]...[/CS] block into the big styled Church Slavonic
+        // display, then renders whatever markdown is left as real HTML.
+        function formatAiResponse(rawText) {
+            const escaped = escapeHtml(rawText);
+            const csMatch = escaped.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
+            const rest = escaped.replace(/\[CS\]([\s\S]*?)\[\/CS\]/, '').trim();
+            let html = '';
+            if (csMatch) {
+                html += `<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold mb-3">${csMatch[1]}</div>`;
+            }
+            html += renderMarkdownLite(rest);
+            return html;
+        }
+
         function hideAiLoader(htmlContent, rawSlavonicExtract = "") {
             document.getElementById('aiLoader').classList.add('hidden');
             document.getElementById('aiResponseContent').innerHTML = htmlContent;
@@ -885,9 +966,7 @@
                 const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
                 const slavonicText = match ? match[1].trim() : "";
 
-                const formattedHtml = text
-                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
-                    .replace(/\n/g, '<br>');
+                const formattedHtml = formatAiResponse(text);
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
@@ -913,9 +992,7 @@
                 const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
                 const slavonicText = match ? match[1].trim() : "";
 
-                const formattedHtml = text
-                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
-                    .replace(/\n/g, '<br>');
+                const formattedHtml = formatAiResponse(text);
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
@@ -933,7 +1010,7 @@
 
             try {
                 const text = await callGeminiApi(prompt, systemPrompt);
-                const formattedHtml = text.replace(/\n/g, '<br>');
+                const formattedHtml = formatAiResponse(text);
                 hideAiLoader(formattedHtml, "");
             } catch (err) {
                 hideAiLoader(`<p class="text-red-500 font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> Помилка аналізу тексту.</p><p class="text-[11px] text-slate-400 font-mono mt-1 break-all">${(err.message || err).toString()}</p>`);
@@ -955,9 +1032,7 @@
                 const match = text.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
                 const slavonicText = match ? match[1].trim() : "";
 
-                const formattedHtml = text
-                    .replace(/\[CS\]([\s\S]*?)\[\/CS\]/g, '<div class="p-3 bg-amber-100/60 dark:bg-slate-900 rounded-lg font-triodion text-lg text-vermilion border border-amber-900/20 font-bold">$1</div>')
-                    .replace(/\n/g, '<br>');
+                const formattedHtml = formatAiResponse(text);
 
                 hideAiLoader(formattedHtml, slavonicText);
             } catch (err) {
