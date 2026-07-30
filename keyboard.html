@@ -107,7 +107,7 @@
         </div>
     </header>
 
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-6 lg:px-8 py-6 space-y-6">
 
         <!-- Explanation Banner -->
         <section class="bg-gradient-to-r from-amber-900/10 via-vermilion/5 to-amber-900/10 rounded-2xl p-4 sm:p-5 border border-amber-900/20 dark:border-amber-600/30 shadow-sm">
@@ -135,13 +135,13 @@
                     </button>
                 </div>
             </div>
-            <textarea id="output" rows="4" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-4 text-2xl font-sans text-slate-900 dark:text-amber-50 focus:outline-none focus:ring-2 focus:ring-vermilion transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
+            <textarea id="output" rows="4" inputmode="none" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-4 text-2xl font-sans text-slate-900 dark:text-amber-50 focus:outline-none focus:ring-2 focus:ring-vermilion transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
         </section>
 
         <!-- Virtual keyboard -->
-        <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
-            <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Virtuaḷna klaviatura</h2>
-            <div id="keyboard" class="space-y-2 select-none"></div>
+        <section class="bg-white dark:bg-slate-900 rounded-2xl p-2 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
+            <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
+            <div id="keyboard" class="space-y-1 sm:space-y-2 select-none"></div>
             <div class="flex justify-center pt-2">
                 <button onclick="insertChar(' ')" class="key-btn w-64 max-w-full py-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
                     Probil
@@ -202,12 +202,12 @@
             kb.innerHTML = '';
             ROWS.forEach(row => {
                 const rowDiv = document.createElement('div');
-                rowDiv.className = 'flex justify-center gap-1.5 flex-wrap';
+                rowDiv.className = 'flex justify-center gap-0.5 sm:gap-1.5 flex-nowrap';
                 row.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
-                    btn.className = 'key-btn w-14 h-16 sm:w-16 sm:h-[4.5rem] rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-0.5 shadow-sm hover:bg-amber-50 dark:hover:bg-slate-700';
-                    btn.innerHTML = `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-lg text-vermilion">${latin}</span>`;
+                    btn.className = 'key-btn flex-1 min-w-0 max-w-[3.5rem] aspect-[4/5] sm:w-14 sm:h-16 sm:flex-none sm:max-w-none lg:w-16 lg:h-[4.5rem] rounded sm:rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-0 sm:gap-0.5 shadow-sm hover:bg-amber-50 dark:hover:bg-slate-700 overflow-hidden';
+                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-xs sm:text-lg text-vermilion">${latin}</span>`;
                     btn.onclick = action === 'dotBelow' ? () => addDotBelow() : () => insertChar(latin);
                     rowDiv.appendChild(btn);
                 });
