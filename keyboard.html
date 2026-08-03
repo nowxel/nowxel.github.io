@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk" class="h-full">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,32 +12,30 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Google Web Fonts -->
+    <!-- Google Fonts: Monomakh для історичних заголовків, Lora та Montserrat для тексту -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Triodion&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CSS для побудови адаптивної структури -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        parchment: '#f7f2e7',
-                        'parchment-dark': '#1e1a17',
-                        vermilion: '#c0392b',
-                        'vermilion-hover': '#962d22',
-                        gold: '#d4af37',
-                    },
                     fontFamily: {
-                        triodion: ['Triodion', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
+                        monomakh: ['Monomakh', 'serif'],
+                        serif: ['Montserrat', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        amber: {
+                            50: '#fefdfb', 100: '#fdf9f1', 200: '#faf0dd', 300: '#f5e1be',
+                            400: '#ecc892', 500: '#e0a967', 600: '#d28b43', 700: '#b46e31',
+                            800: '#945527', 900: '#7a4421', 950: '#42210e',
+                        },
+                        darkBg: '#0f0f11',
+                        darkCard: '#18181c',
                     }
                 }
             }
@@ -45,109 +43,87 @@
     </script>
 
     <style>
-        .bg-parchment-texture {
-            background-color: #f7f2e7;
-            background-image: radial-gradient(#e0d7c3 1px, transparent 1px), radial-gradient(#e0d7c3 1px, #f7f2e7 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-        }
-        .dark .bg-parchment-texture {
-            background-color: #1a1715;
-            background-image: radial-gradient(#2d2824 1px, transparent 1px), radial-gradient(#2d2824 1px, #1a1715 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-        }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-        ::-webkit-scrollbar-thumb { background: rgba(192, 57, 43, 0.4); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(192, 57, 43, 0.7); }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #b46e31; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d28b43; }
 
-        .key-btn {
-            transition: all 0.08s ease-out;
-        }
+        .monomakh-text { font-family: 'Monomakh', serif; }
+
+        .key-btn { transition: all 0.08s ease-out; }
         .key-btn.key-active,
         .key-btn:active {
             transform: translateY(2px);
-            background-color: #c0392b !important;
+            background-color: #b46e31 !important;
+            border-color: #b46e31 !important;
             color: #fff !important;
-            box-shadow: none !important;
+        }
+        .key-btn.key-active span,
+        .key-btn:active span {
+            color: #fff !important;
         }
     </style>
 </head>
 
-<body class="bg-parchment-texture text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200">
+<body class="bg-[#0f0f11] text-gray-200 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-800 selection:text-amber-100">
 
-    <!-- Navigation / Header -->
-    <header class="border-b border-amber-900/10 dark:border-amber-500/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+    <div class="fixed inset-0 pointer-events-none opacity-[0.02] bg-[radial-gradient(#e0a967_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <!-- Шапка / Навігація -->
+    <header class="sticky top-0 z-50 bg-[#0f0f11]/90 backdrop-blur-md border-b border-amber-950/40 px-4 py-4 md:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <a href="fonts.html" title="Nazad do testera ṡryftiv" class="w-10 h-10 rounded-lg bg-vermilion text-white flex items-center justify-center font-triodion text-2xl shadow-md hover:opacity-90 transition">
-                    Ѣ
-                </a>
+                <a href="index.html" title="Do lekciji" class="monomakh-text text-3xl text-amber-500 font-bold tracking-wider hover:text-amber-400 transition-colors">Ꙋ</a>
                 <div>
-                    <h1 class="font-bold text-lg sm:text-xl text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
-                        Klaviatura JCUKEN
-                    </h1>
-                    <p class="text-xs text-amber-800 dark:text-amber-400 font-medium">
+                    <h1 class="text-xs tracking-[0.2em] text-amber-500/80 uppercase font-semibold">Klaviatura JCUKEN</h1>
+                    <p class="text-sm text-gray-400 font-medium">
                         Drukujte kyrylyceü za rozkladkoü JCUKEN svojeü zvyċajnoü (latynṣkoü) klaviaturoü
                     </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2">
-                <a href="fonts.html" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-amber-800/20 text-amber-900 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <span>Do testera ṡryftiv</span>
-                </a>
-                <a href="jcuken-generator.html" class="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg border border-amber-800/20 text-amber-900 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Henerator tekstiv</span>
-                </a>
-                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Zminyty temu">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline"></i>
-                </button>
-            </div>
+            <nav class="flex gap-2 sm:gap-4 text-xs md:text-sm font-medium">
+                <a href="index.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">&larr; Do lekciji</a>
+                <a href="fonts.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Do testera ṡryftiv</a>
+                <a href="jcuken-generator.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Henerator tekstiv</a>
+            </nav>
         </div>
     </header>
 
-    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-6 lg:px-8 py-8 space-y-6">
 
         <!-- Explanation Banner -->
-        <section class="bg-gradient-to-r from-amber-900/10 via-vermilion/5 to-amber-900/10 rounded-2xl p-4 sm:p-5 border border-amber-900/20 dark:border-amber-600/30 shadow-sm">
-            <div class="flex items-start gap-3">
-                <i class="fa-solid fa-circle-info text-vermilion mt-0.5"></i>
-                <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                    Kożna klaviṡa vstavljaje latynṣku transliteraciü (j, c, u, k, e, n...) tijeji litery, jaka stojiṭ na c̣omu misci v rozkladci <strong>JCUKEN</strong> — sama kyrylyċna litera pokazana lyṡe jak maleṇka pidkazka zverḣu. Drukujte prjamo fizyċnoü klaviaturoü — natyskannja vyznaċajeṭsja za <em>polożennjam</em> klaviṡi, toż rozkladka vaṡoji OS znaċennja ne maje. Shift daje velyku literu. Można takoż prosto klikaty myṡkoü po klaviṡaḣ nyżċe.
-                </p>
-            </div>
+        <section class="bg-[#18181c] rounded-2xl p-4 sm:p-5 border border-amber-950/30">
+            <p class="text-xs sm:text-sm text-gray-400 leading-relaxed font-serif">
+                Kożna klaviṡa vstavljaje latynṣku transliteraciü (j, c, u, k, e, n...) tijeji litery, jaka stojiṭ na c̣omu misci v rozkladci <strong class="text-amber-400">JCUKEN</strong> — sama kyrylyċna litera pokazana lyṡe jak maleṇka pidkazka zverḣu. Drukujte prjamo fizyċnoü klaviaturoü — natyskannja vyznaċajeṭsja za <em>polożennjam</em> klaviṡi, toż rozkladka vaṡoji OS znaċennja ne maje. Shift daje velyku literu. Można takoż prosto klikaty myṡkoü po klaviṡaḣ nyżċe.
+            </p>
         </section>
 
         <!-- Output textarea -->
-        <section class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
+        <section class="bg-[#18181c] rounded-2xl p-5 border border-amber-950/30 space-y-3">
             <div class="flex items-center justify-between">
-                <label for="output" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Vaṡ tekst</label>
+                <label for="output" class="text-xs font-semibold text-amber-500/70 uppercase tracking-wider">Vaṡ tekst</label>
                 <div class="flex items-center gap-2">
-                    <button onclick="doBackspace()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                        <i class="fa-solid fa-delete-left"></i> Sterty
+                    <button onclick="doBackspace()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-950/40 text-gray-400 hover:bg-amber-950/20 hover:text-amber-300 transition">
+                        Sterty
                     </button>
-                    <button onclick="clearOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                        <i class="fa-solid fa-trash-can"></i> Oċystyty
+                    <button onclick="clearOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-amber-950/40 text-gray-400 hover:bg-amber-950/20 hover:text-amber-300 transition">
+                        Oċystyty
                     </button>
-                    <button onclick="copyOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-vermilion hover:bg-vermilion-hover text-white transition">
-                        <i class="fa-regular fa-copy"></i> Kopiüvaty
+                    <button onclick="copyOutput()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-700 hover:bg-amber-600 text-white transition">
+                        Kopiüvaty
                     </button>
                 </div>
             </div>
-            <textarea id="output" rows="4" inputmode="none" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl p-4 text-2xl font-sans text-slate-900 dark:text-amber-50 focus:outline-none focus:ring-2 focus:ring-vermilion transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
+            <textarea id="output" rows="4" inputmode="none" class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-xl p-4 text-2xl font-sans text-gray-100 focus:outline-none focus:border-amber-500 transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
         </section>
 
         <!-- Virtual keyboard -->
-        <section class="bg-white dark:bg-slate-900 rounded-2xl p-2 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-md space-y-3">
-            <h2 class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
+        <section class="bg-[#18181c] rounded-2xl p-2 sm:p-5 border border-amber-950/30 space-y-3">
+            <h2 class="text-xs font-semibold text-amber-500/70 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
             <div id="keyboard" class="space-y-1 sm:space-y-2 select-none"></div>
             <div class="flex justify-center pt-2">
-                <button onclick="insertChar(' ')" class="key-btn w-64 max-w-full py-3 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                <button onclick="insertChar(' ')" class="key-btn w-64 max-w-full py-3 rounded-lg bg-[#0f0f11] border border-amber-950/40 text-xs font-semibold text-gray-400 hover:bg-amber-950/20 hover:text-amber-300 transition">
                     Probil
                 </button>
             </div>
@@ -155,17 +131,16 @@
 
     </main>
 
+    <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-8">
+        <p>Virtuaḷna klaviatura dlja drukuvannja kyrylyceü rozkladkoü JCUKEN.</p>
+    </footer>
+
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <i class="fa-solid fa-check-circle text-emerald-400 dark:text-emerald-600 text-base"></i>
+    <div id="toast" class="fixed bottom-5 right-5 bg-[#18181c] border border-amber-500/30 text-amber-100 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
         <span id="toastMsg">Skopijovano!</span>
     </div>
 
     <script>
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-        }
-
         // ЙЦУКЕН layout: physical key code -> [Cyrillic letter shown as hint, Latin transliteration actually typed].
         const ROWS = [
             [
@@ -211,8 +186,8 @@
                 row.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
-                    btn.className = 'key-btn flex-1 min-w-0 max-w-[3.5rem] aspect-[4/5] sm:w-14 sm:h-16 sm:flex-none sm:max-w-none lg:w-16 lg:h-[4.5rem] rounded sm:rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-0 sm:gap-0.5 shadow-sm hover:bg-amber-50 dark:hover:bg-slate-700 overflow-hidden';
-                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-xs sm:text-lg text-vermilion">${latin}</span>`;
+                    btn.className = 'key-btn flex-1 min-w-0 max-w-[3.5rem] aspect-[4/5] sm:w-14 sm:h-16 sm:flex-none sm:max-w-none lg:w-16 lg:h-[4.5rem] rounded sm:rounded-lg bg-[#0f0f11] border border-amber-950/40 flex flex-col items-center justify-center gap-0 sm:gap-0.5 hover:bg-amber-950/20 overflow-hidden';
+                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-gray-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-xs sm:text-lg text-amber-400">${latin}</span>`;
                     btn.onclick = action === 'dotBelow' ? () => addDotBelow()
                         : action === 'backspace' ? () => doBackspace()
                         : () => insertChar(latin);
