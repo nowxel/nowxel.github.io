@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор текстів JCUKEN</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+
+    <!-- Google Fonts: Monomakh для історичних заголовків, Lora для академічного тексту та Montserrat для сучасного інтерфейсу -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS для побудови адаптивної структури -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        monomakh: ['Monomakh', 'serif'],
+                        serif: ['Montserrat', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        amber: {
+                            50: '#fefdfb', 100: '#fdf9f1', 200: '#faf0dd', 300: '#f5e1be',
+                            400: '#ecc892', 500: '#e0a967', 600: '#d28b43', 700: '#b46e31',
+                            800: '#945527', 900: '#7a4421', 950: '#42210e',
+                        },
+                        darkBg: '#0f0f11',
+                        darkCard: '#18181c',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #b46e31; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d28b43; }
+        .monomakh-text { font-family: 'Monomakh', serif; }
+        .baroque-glow { box-shadow: 0 0 30px -5px rgba(224, 169, 103, 0.15); }
+        .spinner {
+            border: 3px solid rgba(224, 169, 103, 0.15);
+            border-top-color: #e0a967;
+            border-radius: 50%;
+            width: 22px; height: 22px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-[#0f0f11] text-gray-200 font-sans selection:bg-amber-800 selection:text-amber-100 antialiased">
+
+    <div class="fixed inset-0 pointer-events-none opacity-[0.02] bg-[radial-gradient(#e0a967_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <!-- Шапка / Навігація -->
+    <header class="sticky top-0 z-50 bg-[#0f0f11]/90 backdrop-blur-md border-b border-amber-950/40 px-4 py-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <a href="index.html" title="До лекції" class="monomakh-text text-3xl text-amber-500 font-bold tracking-wider hover:text-amber-400 transition-colors">Ꙋ</a>
+                <div>
+                    <h1 class="text-xs tracking-[0.2em] text-amber-500/80 uppercase font-semibold">Мовний інструмент</h1>
+                    <p class="text-sm text-gray-400 font-medium">AI-генератор тексту в розкладці JCUKEN</p>
+                </div>
+            </div>
+            <nav class="flex gap-2 sm:gap-4 text-xs md:text-sm font-medium">
+                <a href="index.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">&larr; До лекції</a>
+                <a href="keyboard.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Клавіатура JCUKEN</a>
+                <a href="#generator" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Генератор</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10">
+
+        <!-- Герой-блок / Заголовок -->
+        <section class="relative mb-16 text-center py-12 md:py-20 overflow-hidden rounded-3xl border border-amber-950/40 bg-gradient-to-b from-[#18181c] to-[#0f0f11] baroque-glow">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <span class="inline-block text-amber-500/30 monomakh-text text-8xl md:text-9xl mb-4 select-none animate-pulse">JC</span>
+
+            <h1 class="monomakh-text text-4xl md:text-6xl text-amber-400 max-w-4xl mx-auto leading-tight px-4 font-bold tracking-wide">
+                Генератор текстів JCUKEN
+            </h1>
+
+            <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-4 font-serif">
+                Введіть тему — Gemini напише короткий уривок сучасною українською, а сторінка автоматично перекладе його в ту саму латинську транслітерацію JCUKEN, що й на сторінці «Клавіатура JCUKEN».
+            </p>
+
+            <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-xs tracking-wider text-amber-500/80 font-semibold uppercase">
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Gemini 3 · через проксі Cloudflare</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Транслітерація — локально в браузері</span>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Ліва колонка: генератор -->
+            <div class="lg:col-span-8 space-y-8">
+
+                <article id="generator" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">I</span>
+                        <h2 class="text-2xl font-bold text-amber-400 monomakh-text tracking-wide">Тема тексту</h2>
+                    </div>
+
+                    <div class="space-y-3">
+                        <input type="text" id="topicInput" value="Ранкова кава над Дніпром"
+                               class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg px-4 py-3 text-sm md:text-base text-gray-100 focus:outline-none focus:border-amber-500 transition-colors font-serif"
+                               placeholder="напр. Космос, Історія Києва, Осінь у Карпатах...">
+
+                        <div class="flex flex-wrap gap-3">
+                            <button id="generateBtn" onclick="generateJcukenText()"
+                                    class="flex-1 sm:flex-none bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span>Згенерувати</span>
+                            </button>
+                            <button onclick="resetGenerator()"
+                                    class="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-400 hover:text-white text-sm rounded-lg transition-colors">
+                                Очистити
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Loader -->
+                    <div id="genLoader" class="hidden items-center gap-3 text-amber-500/80 text-sm font-serif">
+                        <div class="spinner"></div>
+                        <span>Gemini пише текст…</span>
+                    </div>
+
+                    <!-- Output -->
+                    <div id="outputWrap" class="hidden space-y-5">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block mb-2">Оригінал (сучасна українська)</span>
+                            <p id="originalOutput" class="p-4 bg-[#0f0f11] rounded-xl border border-amber-950/30 text-gray-300 leading-relaxed font-serif text-sm md:text-base"></p>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">У розкладці JCUKEN</span>
+                                <button onclick="copyJcukenOutput()" id="copyJcukenBtn"
+                                        class="text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors">
+                                    Копіювати
+                                </button>
+                            </div>
+                            <p id="jcukenOutput" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 text-amber-200 leading-relaxed font-mono text-sm md:text-base break-words"></p>
+                        </div>
+                    </div>
+
+                    <div id="genError" class="hidden p-4 bg-red-950/20 border border-red-900/40 rounded-lg text-sm text-red-300 font-serif"></div>
+                </article>
+
+            </div>
+
+            <!-- Права колонка: пояснення і таблиця відповідників -->
+            <div class="lg:col-span-4 space-y-8 lg:sticky lg:top-24">
+
+                <div class="bg-gradient-to-b from-[#1c1c22] to-[#141417] p-6 rounded-2xl border border-amber-950/30 space-y-4">
+                    <div class="flex justify-between items-center border-b border-amber-950/40 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold tracking-widest text-amber-500 uppercase">Як це працює</span>
+                            <h3 class="text-lg font-bold text-white monomakh-text tracking-wide mt-1">Дві частини</h3>
+                        </div>
+                        <span class="monomakh-text text-3xl text-amber-500">JC</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) пише короткий уривок звичайною українською мовою на вашу тему.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        2. Отриманий текст миттєво й детерміновано перекладається в JCUKEN тим самим кодом, що керує <a href="keyboard.html" class="text-amber-400 hover:text-amber-300 underline">віртуальною клавіатурою</a> — без участі AI на цьому кроці, тож відповідність завжди точна.
+                    </p>
+                </div>
+
+                <div class="bg-[#18181c] p-6 rounded-2xl border border-amber-950/30 space-y-3">
+                    <h3 class="text-base font-bold text-amber-400 monomakh-text tracking-wide">Ключові відповідники</h3>
+                    <div class="grid grid-cols-3 gap-2 font-sans text-xs">
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">х</span> <span class="text-amber-400 font-bold">→ ḣ</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ч</span> <span class="text-amber-400 font-bold">→ ċ</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ш</span> <span class="text-amber-400 font-bold">→ ṡ</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">щ</span> <span class="text-amber-400 font-bold">→ s̈</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ж</span> <span class="text-amber-400 font-bold">→ ż</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">г</span> <span class="text-amber-400 font-bold">→ h</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ґ</span> <span class="text-amber-400 font-bold">→ g</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ю</span> <span class="text-amber-400 font-bold">→ ü</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">я</span> <span class="text-amber-400 font-bold">→ ja</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">є</span> <span class="text-amber-400 font-bold">→ je</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ї</span> <span class="text-amber-400 font-bold">→ ji</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ь</span> <span class="text-amber-400 font-bold">→ ◌̣</span></div>
+                    </div>
+                    <p class="text-[10px] text-gray-500 italic leading-normal">
+                        Решта літер — пряма латинізація (а→a, б→b, в→v...). Мʼякий знак не має власного символу, а додає крапку знизу під попередньою літерою.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-16">
+        <p class="mb-2">&copy; 2026 · Експериментальний генератор тексту в схемі JCUKEN.</p>
+        <p>Текст пише Gemini, транслітерацію рахує браузер — той самий код, що й на сторінці «Клавіатура JCUKEN».</p>
+    </footer>
+
+    <script>
+        // --- Той самий детермінований словник транслітерації, що й на
+        // сторінці "Клавіатура JCUKEN": кожна кирилична літера -> латинський
+        // відповідник, який фізично друкується тією ж клавішею в розкладці.
+        const TRANSLIT_MAP = {
+            'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'je','ж':'ż','з':'z',
+            'и':'y','і':'i','ї':'ji','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p',
+            'р':'r','с':'s','т':'t','у':'u','ф':'f','х':'ḣ','ц':'c','ч':'ċ','ш':'ṡ','щ':'s̈',
+            'ю':'ü','я':'ja'
+        };
+        const MULTI_LETTERS = new Set(['je', 'ji', 'ja']);
+        const DOT_BELOW = '̣'; // combining dot below — replaces the soft sign (ь)
+
+        function capitalizeLatin(latin) {
+            if (!latin.length) return latin;
+            if (MULTI_LETTERS.has(latin)) {
+                return latin.charAt(0).toUpperCase() + latin.slice(1);
+            }
+            return latin.toUpperCase();
+        }
+
+        function transliterateToJcuken(text) {
+            let out = '';
+            for (const ch of text) {
+                const lower = ch.toLowerCase();
+                if (lower === 'ь') {
+                    out += DOT_BELOW;
+                    continue;
+                }
+                if (Object.prototype.hasOwnProperty.call(TRANSLIT_MAP, lower)) {
+                    let latin = TRANSLIT_MAP[lower];
+                    if (ch !== lower) latin = capitalizeLatin(latin);
+                    out += latin;
+                } else {
+                    out += ch;
+                }
+            }
+            return out;
+        }
+
+        // --- Gemini call через той самий Cloudflare Worker проксі, що й на
+        // сторінці зі шрифтами — ключ ніколи не потрапляє в цей репозиторій.
+        async function callGeminiApi(promptText, systemInstruction = "") {
+            const apiUrl = "https://proud-butterfly-38a8.nowxel.workers.dev";
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: promptText }] }]
+            };
+            if (systemInstruction) {
+                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+            }
+
+            let delay = 1000;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        let bodyText = '';
+                        try { bodyText = await response.text(); } catch (_) {}
+                        throw new Error(`HTTP ${response.status}: ${bodyText || response.statusText}`);
+                    }
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Не вдалося отримати відповідь від Gemini.";
+                } catch (err) {
+                    if (attempt === 2 || (err.message && /^HTTP 4\d\d/.test(err.message))) throw err;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function generateJcukenText() {
+            const topic = document.getElementById('topicInput').value.trim() || "випадкова тема";
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('genLoader');
+            const outputWrap = document.getElementById('outputWrap');
+            const errorBox = document.getElementById('genError');
+
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+            loader.classList.add('flex');
+            outputWrap.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const systemPrompt = "Ти — досвідчений українськомовний редактор. Пиши лише сучасною українською літературною мовою, без церковнослов'янізмів, без заголовків і приміток — тільки суцільний зв'язний текст на 3-5 речень.";
+            const prompt = `Напиши короткий зв'язний уривок (3-5 речень) сучасною українською мовою на тему: "${topic}".`;
+
+            try {
+                const original = (await callGeminiApi(prompt, systemPrompt)).trim();
+                const jcuken = transliterateToJcuken(original);
+
+                document.getElementById('originalOutput').textContent = original;
+                document.getElementById('jcukenOutput').textContent = jcuken;
+                outputWrap.classList.remove('hidden');
+            } catch (err) {
+                errorBox.textContent = `Помилка запиту до Gemini API: ${(err.message || err).toString()}`;
+                errorBox.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            }
+        }
+
+        function resetGenerator() {
+            document.getElementById('topicInput').value = '';
+            document.getElementById('outputWrap').classList.add('hidden');
+            document.getElementById('genError').classList.add('hidden');
+        }
+
+        function copyJcukenOutput() {
+            const text = document.getElementById('jcukenOutput').textContent;
+            if (!text) return;
+            const btn = document.getElementById('copyJcukenBtn');
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.textContent;
+                btn.textContent = 'Скопійовано!';
+                setTimeout(() => { btn.textContent = original; }, 2000);
+            }).catch(() => {
+                btn.textContent = 'Не вдалося скопіювати';
+            });
+        }
+    </script>
+</body>
+</html>
