@@ -847,7 +847,7 @@
             const rest = escaped.replace(/\[CS\]([\s\S]*?)\[\/CS\]/, '').trim();
             let html = '';
             if (csMatch) {
-                html += `<div class="p-3 bg-amber-950/30 rounded-lg font-triodion text-lg text-amber-300 border border-amber-500/20 font-bold mb-3">${csMatch[1]}</div>`;
+                html += `<div class="p-3 bg-amber-950/30 rounded-lg font-ponomar text-lg text-amber-300 border border-amber-500/20 font-bold mb-3">${csMatch[1]}</div>`;
             }
             html += renderMarkdownLite(rest);
             return html;
