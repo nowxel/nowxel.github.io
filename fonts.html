@@ -89,6 +89,13 @@
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Same font stack a native <select>/<option> falls back to — used to
+           rescue rare combining marks (titlo, pokrytie, breathing marks...)
+           that our decorative historical webfonts don't have glyphs for. */
+        .font-fallback-safe {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
     </style>
 </head>
 
@@ -809,6 +816,29 @@
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
+        // --- Glyph-fallback hardening ---
+        // Decorative historical webfonts (Triodion, Ponomar, Pochaevsk...)
+        // don't always ship glyphs for rare combining marks (titlo ҃,
+        // pokrytie ҇, breathing marks ҆ ҅, generic diacritics). When that
+        // happens the browser shows a blank tofu box instead of falling
+        // back, because it already "committed" to that font's unicode-range.
+        // A native <select><option> never has this problem — browsers
+        // ignore custom fonts there and just use the OS/browser's own UI
+        // font, which has full Unicode coverage. This groups every base
+        // character together with any combining marks that follow it, and
+        // wraps that cluster in the same system-font fallback whenever a
+        // risky mark is present, so it renders exactly like the dropdown.
+        const RISKY_MARK = /[̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]/;
+        const CLUSTER_RE = /[\s\S][̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]*/g;
+
+        function hardenGlyphs(rawText, alreadyEscaped = false) {
+            const text = alreadyEscaped ? rawText : escapeHtml(rawText);
+            const clusters = text.match(CLUSTER_RE) || [];
+            return clusters.map(cluster =>
+                RISKY_MARK.test(cluster) ? `<span class="font-fallback-safe">${cluster}</span>` : cluster
+            ).join('');
+        }
+
         function inlineMarkdown(text) {
             return text
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -875,7 +905,7 @@
             const rest = escaped.replace(/\[CS\]([\s\S]*?)\[\/CS\]/, '').trim();
             let html = '';
             if (csMatch) {
-                html += `<div class="p-3 bg-amber-950/30 rounded-lg font-ponomar text-lg text-amber-300 border border-amber-500/20 font-bold mb-3">${csMatch[1]}</div>`;
+                html += `<div class="p-3 bg-amber-950/30 rounded-lg font-ponomar text-lg text-amber-300 border border-amber-500/20 font-bold mb-3">${hardenGlyphs(csMatch[1], true)}</div>`;
             }
             html += renderMarkdownLite(rest);
             return html;
@@ -1035,13 +1065,13 @@
             PREVIEW_IDS.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
-                    el.textContent = text;
+                    el.innerHTML = hardenGlyphs(text);
                 }
             });
 
             // Sync with analysis tab display if visible
             const analyzeDisplay = document.getElementById('analyzeCurrentTextDisplay');
-            if (analyzeDisplay) analyzeDisplay.textContent = text;
+            if (analyzeDisplay) analyzeDisplay.innerHTML = hardenGlyphs(text);
         }
 
         function updateFormatting() {
@@ -1100,7 +1130,7 @@
             const display = document.getElementById('modalGlyphDisplay');
 
             display.className = `text-5xl sm:text-6xl text-amber-400 leading-relaxed tracking-wider ${fontClass}`;
-            display.textContent = currentText;
+            display.innerHTML = hardenGlyphs(currentText);
 
             document.getElementById('glyphModal').classList.remove('hidden');
         }
