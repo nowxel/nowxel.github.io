@@ -50,17 +50,21 @@
 
         .monomakh-text { font-family: 'Monomakh', serif; }
 
-        .key-btn { transition: all 0.08s ease-out; }
+        .key-btn { transition: all 0.05s ease-out; }
         .key-btn.key-active,
         .key-btn:active {
-            transform: translateY(2px);
-            background-color: #b46e31 !important;
-            border-color: #b46e31 !important;
-            color: #fff !important;
+            transform: scale(0.94);
+            background-color: #6e6e72 !important;
         }
         .key-btn.key-active span,
         .key-btn:active span {
             color: #fff !important;
+        }
+
+        /* Native-keyboard dock: full-bleed bar pinned to the bottom of the
+           screen on phones, exactly like the iOS/Android system keyboard. */
+        #kbDock {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
     </style>
 </head>
@@ -90,7 +94,7 @@
         </div>
     </header>
 
-    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-6 lg:px-8 py-8 space-y-6">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-2 sm:px-6 lg:px-8 py-8 space-y-6 pb-80 sm:pb-8">
 
         <!-- Explanation Banner -->
         <section class="bg-[#18181c] rounded-2xl p-4 sm:p-5 border border-amber-950/30">
@@ -118,12 +122,14 @@
             <textarea id="output" rows="4" inputmode="none" class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-xl p-4 text-2xl font-sans text-gray-100 focus:outline-none focus:border-amber-500 transition leading-relaxed" placeholder="Drukujte tut..." autofocus></textarea>
         </section>
 
-        <!-- Virtual keyboard -->
-        <section class="bg-[#18181c] rounded-2xl p-2 sm:p-5 border border-amber-950/30 space-y-3">
-            <h2 class="text-xs font-semibold text-amber-500/70 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
-            <div id="keyboard" class="space-y-1 sm:space-y-2 select-none"></div>
-            <div class="flex justify-center pt-2">
-                <button onclick="insertChar(' ')" class="key-btn w-64 max-w-full py-3 rounded-lg bg-[#0f0f11] border border-amber-950/40 text-xs font-semibold text-gray-400 hover:bg-amber-950/20 hover:text-amber-300 transition">
+        <!-- Virtual keyboard: fixed full-width dock on phones (like the native
+             system keyboard), embedded card on wider screens. -->
+        <section id="kbDock" class="fixed inset-x-0 bottom-0 z-40 bg-[#1c1c1e] px-1.5 pt-2 border-t border-black/50
+                   sm:static sm:inset-auto sm:z-auto sm:bg-[#18181c] sm:rounded-2xl sm:p-5 sm:border sm:border-amber-950/30 sm:px-5">
+            <h2 class="hidden sm:block text-xs font-semibold text-amber-500/70 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
+            <div id="keyboard" class="space-y-1.5 sm:space-y-2 select-none"></div>
+            <div class="flex gap-1.5 pt-1.5 pb-2 sm:pt-2 sm:pb-0">
+                <button onclick="insertChar(' ')" class="key-btn flex-1 py-2.5 sm:py-3 sm:max-w-xs sm:mx-auto rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
                     Probil
                 </button>
             </div>
@@ -136,7 +142,7 @@
     </footer>
 
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-[#18181c] border border-amber-500/30 text-amber-100 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <div id="toast" class="fixed top-20 sm:top-auto sm:bottom-5 right-5 bg-[#18181c] border border-amber-500/30 text-amber-100 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform -translate-y-4 opacity-0 transition-all duration-300 z-50">
         <span id="toastMsg">Skopijovano!</span>
     </div>
 
@@ -180,14 +186,17 @@
         function buildKeyboard() {
             const kb = document.getElementById('keyboard');
             kb.innerHTML = '';
-            ROWS.forEach(row => {
+            ROWS.forEach((row, rowIndex) => {
                 const rowDiv = document.createElement('div');
-                rowDiv.className = 'flex justify-center gap-0.5 sm:gap-1.5 flex-nowrap';
+                // Row 2 gets a small side inset on phones, matching how the
+                // native iOS/Android Cyrillic keyboard offsets its middle row.
+                const inset = rowIndex === 1 ? 'px-[3%] sm:px-0' : '';
+                rowDiv.className = `flex justify-center gap-1 sm:gap-1.5 flex-nowrap ${inset}`;
                 row.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
-                    btn.className = 'key-btn flex-1 min-w-0 max-w-[3.5rem] aspect-[4/5] sm:w-14 sm:h-16 sm:flex-none sm:max-w-none lg:w-16 lg:h-[4.5rem] rounded sm:rounded-lg bg-[#0f0f11] border border-amber-950/40 flex flex-col items-center justify-center gap-0 sm:gap-0.5 hover:bg-amber-950/20 overflow-hidden';
-                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-gray-500 font-semibold">${cyrillicHint}</span><span class="font-sans font-bold text-xs sm:text-lg text-amber-400">${latin}</span>`;
+                    btn.className = 'key-btn flex-1 min-w-0 h-11 sm:h-16 sm:w-14 sm:flex-none lg:w-16 lg:h-[4.5rem] rounded-md sm:rounded-lg bg-[#48484a] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 flex flex-col items-center justify-center gap-0 sm:gap-0.5 sm:hover:bg-amber-950/20 overflow-hidden shadow-sm sm:shadow-none';
+                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-gray-400 sm:text-gray-500 font-semibold leading-none">${cyrillicHint}</span><span class="font-sans font-bold text-sm sm:text-lg text-white sm:text-amber-400 leading-none mt-0.5">${latin}</span>`;
                     btn.onclick = action === 'dotBelow' ? () => addDotBelow()
                         : action === 'backspace' ? () => doBackspace()
                         : () => insertChar(latin);
@@ -253,8 +262,8 @@
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
+            toast.classList.remove('-translate-y-4', 'opacity-0');
+            setTimeout(() => toast.classList.add('-translate-y-4', 'opacity-0'), 2500);
         }
 
         function flashKey(code, on) {
