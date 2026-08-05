@@ -60,6 +60,12 @@
         .key-btn:active span {
             color: #fff !important;
         }
+        .key-btn.shift-active {
+            background-color: #b46e31 !important;
+        }
+        .key-btn.shift-active span {
+            color: #fff !important;
+        }
 
         /* Native-keyboard dock: full-bleed bar pinned to the bottom of the
            screen on phones, exactly like the iOS/Android system keyboard. */
@@ -129,8 +135,14 @@
             <h2 class="hidden sm:block text-xs font-semibold text-amber-500/70 uppercase tracking-wider mb-1 px-1">Virtuaḷna klaviatura</h2>
             <div id="keyboard" class="space-y-1.5 sm:space-y-2 select-none"></div>
             <div class="flex gap-1.5 pt-1.5 pb-2 sm:pt-2 sm:pb-0">
+                <button id="layoutToggleBtn" onclick="toggleLayout()" class="key-btn w-14 sm:w-16 py-2.5 sm:py-3 rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
+                    123
+                </button>
                 <button onclick="insertChar(' ')" class="key-btn flex-1 py-2.5 sm:py-3 sm:max-w-xs sm:mx-auto rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
                     Probil
+                </button>
+                <button onclick="insertNewline()" class="key-btn w-14 sm:w-16 py-2.5 sm:py-3 rounded-md sm:rounded-lg bg-amber-700 text-white text-base sm:text-lg font-semibold active:bg-amber-600 hover:bg-amber-600 transition">
+                    &#9166;
                 </button>
             </div>
         </section>
@@ -148,7 +160,7 @@
 
     <script>
         // ЙЦУКЕН layout: physical key code -> [Cyrillic letter shown as hint, Latin transliteration actually typed].
-        const ROWS = [
+        const LETTER_ROWS = [
             [
                 ['KeyQ', 'Й', 'j'], ['KeyW', 'Ц', 'c'], ['KeyE', 'У', 'u'], ['KeyR', 'К', 'k'], ['KeyT', 'Е', 'e'],
                 ['KeyY', 'Н', 'n'], ['KeyU', 'Г', 'h'], ['KeyI', 'Ш', 'ṡ'], ['KeyO', 'Щ', 's̈'], ['KeyP', 'З', 'z'],
@@ -160,11 +172,32 @@
                 ['Semicolon', 'Ж', 'ż'], ['Quote', 'Є', 'je']
             ],
             [
+                ['VirtualShift', '', '&#8679;', 'shift'],
                 ['KeyZ', 'Я', 'ja'], ['KeyX', 'Ч', 'ċ'], ['KeyC', 'С', 's'], ['KeyV', 'М', 'm'], ['KeyB', 'И', 'y'],
                 ['KeyN', 'Т', 't'], ['KeyM', 'Ь', '◌̣', 'dotBelow'], ['Comma', 'Б', 'b'], ['Period', 'Ю', 'ü'],
                 ['Backquote', 'Ґ', 'g'], ['VirtualComma', '', ','], ['VirtualPeriod', '', '.'], ['VirtualBackspace', '', '⌫', 'backspace']
             ]
         ];
+
+        // Numbers/symbols page, opened via the "123" key next to the spacebar —
+        // on-screen only (a physical keyboard already types digits natively).
+        const SYMBOL_ROWS = [
+            [
+                ['Sym1', '', '1'], ['Sym2', '', '2'], ['Sym3', '', '3'], ['Sym4', '', '4'], ['Sym5', '', '5'],
+                ['Sym6', '', '6'], ['Sym7', '', '7'], ['Sym8', '', '8'], ['Sym9', '', '9'], ['Sym0', '', '0']
+            ],
+            [
+                ['SymDash', '', '-'], ['SymSlash', '', '/'], ['SymColon', '', ':'], ['SymSemi', '', ';'], ['SymParenL', '', '('],
+                ['SymParenR', '', ')'], ['SymHryvnia', '', '₴'], ['SymAmp', '', '&'], ['SymAt', '', '@'], ['SymQuote', '', '"']
+            ],
+            [
+                ['SymPeriod', '', '.'], ['SymComma', '', ','], ['SymQuestion', '', '?'], ['SymExclaim', '', '!'],
+                ['SymApostrophe', '', '\''], ['SymBackspace', '', '⌫', 'backspace']
+            ]
+        ];
+
+        let currentLayout = 'letters';
+        let shiftActive = false;
 
         // Combining dot below (U+0323) — added under the previously typed letter
         // instead of being inserted as its own character (used for the soft sign).
@@ -176,8 +209,11 @@
 
         const codeToLatin = {};
         const codeToAction = {};
-        ROWS.forEach(row => {
+        LETTER_ROWS.forEach(row => {
             row.forEach(([code, , latin, action]) => {
+                // The virtual-only Shift key has no physical-key equivalent —
+                // physical Shift is already handled separately via e.shiftKey.
+                if (action === 'shift') return;
                 codeToLatin[code] = latin;
                 if (action) codeToAction[code] = action;
             });
@@ -186,7 +222,8 @@
         function buildKeyboard() {
             const kb = document.getElementById('keyboard');
             kb.innerHTML = '';
-            ROWS.forEach((row, rowIndex) => {
+            const rows = currentLayout === 'letters' ? LETTER_ROWS : SYMBOL_ROWS;
+            rows.forEach((row, rowIndex) => {
                 const rowDiv = document.createElement('div');
                 // Row 2 gets a small side inset on phones, matching how the
                 // native iOS/Android Cyrillic keyboard offsets its middle row.
@@ -195,15 +232,49 @@
                 row.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
-                    btn.className = 'key-btn flex-1 min-w-0 h-11 sm:h-16 sm:w-14 sm:flex-none lg:w-16 lg:h-[4.5rem] rounded-md sm:rounded-lg bg-[#48484a] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 flex flex-col items-center justify-center gap-0 sm:gap-0.5 sm:hover:bg-amber-950/20 overflow-hidden shadow-sm sm:shadow-none';
-                    btn.innerHTML = `<span class="text-[7px] sm:text-[10px] text-gray-400 sm:text-gray-500 font-semibold leading-none">${cyrillicHint}</span><span class="font-sans font-bold text-sm sm:text-lg text-white sm:text-amber-400 leading-none mt-0.5">${latin}</span>`;
+                    const isControl = action === 'shift' || action === 'backspace';
+                    btn.className = 'key-btn flex-1 min-w-0 h-11 sm:h-16 sm:w-14 sm:flex-none lg:w-16 lg:h-[4.5rem] rounded-md sm:rounded-lg flex flex-col items-center justify-center gap-0 sm:gap-0.5 overflow-hidden shadow-sm sm:shadow-none '
+                        + (isControl
+                            ? 'bg-[#3a3a3c] sm:bg-[#212126] sm:border sm:border-amber-950/40 sm:hover:bg-amber-950/30'
+                            : 'bg-[#48484a] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 sm:hover:bg-amber-950/20');
+                    if (action === 'shift' && shiftActive) btn.classList.add('shift-active');
+                    btn.innerHTML = cyrillicHint
+                        ? `<span class="text-[7px] sm:text-[10px] text-gray-400 sm:text-gray-500 font-semibold leading-none">${cyrillicHint}</span><span class="font-sans font-bold text-sm sm:text-lg text-white sm:text-amber-400 leading-none mt-0.5">${latin}</span>`
+                        : `<span class="font-sans font-bold text-sm sm:text-lg text-white sm:text-amber-400 leading-none">${latin}</span>`;
                     btn.onclick = action === 'dotBelow' ? () => addDotBelow()
                         : action === 'backspace' ? () => doBackspace()
-                        : () => insertChar(latin);
+                        : action === 'shift' ? () => toggleShift()
+                        : () => handleKeyClick(latin);
                     rowDiv.appendChild(btn);
                 });
                 kb.appendChild(rowDiv);
             });
+        }
+
+        function handleKeyClick(latin) {
+            if (currentLayout === 'letters' && shiftActive) {
+                insertChar(capitalize(latin));
+                shiftActive = false;
+                buildKeyboard();
+            } else {
+                insertChar(latin);
+            }
+        }
+
+        function toggleShift() {
+            shiftActive = !shiftActive;
+            buildKeyboard();
+        }
+
+        function toggleLayout() {
+            currentLayout = currentLayout === 'letters' ? 'symbols' : 'letters';
+            shiftActive = false;
+            document.getElementById('layoutToggleBtn').textContent = currentLayout === 'letters' ? '123' : 'ABC';
+            buildKeyboard();
+        }
+
+        function insertNewline() {
+            insertChar('\n');
         }
 
         function insertChar(ch) {
