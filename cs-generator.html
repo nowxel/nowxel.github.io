@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Генератор церковнослов'янських текстів</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+
+    <!-- Google Fonts: Monomakh для заголовків, Ponomar — для церковнослов'янського тексту, Montserrat для інтерфейсу -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Ponomar&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS для побудови адаптивної структури -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        monomakh: ['Monomakh', 'serif'],
+                        ponomar: ['Ponomar', 'serif'],
+                        serif: ['Montserrat', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        amber: {
+                            50: '#fefdfb', 100: '#fdf9f1', 200: '#faf0dd', 300: '#f5e1be',
+                            400: '#ecc892', 500: '#e0a967', 600: '#d28b43', 700: '#b46e31',
+                            800: '#945527', 900: '#7a4421', 950: '#42210e',
+                        },
+                        darkBg: '#0f0f11',
+                        darkCard: '#18181c',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #b46e31; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d28b43; }
+        .monomakh-text { font-family: 'Monomakh', serif; }
+        .baroque-glow { box-shadow: 0 0 30px -5px rgba(224, 169, 103, 0.15); }
+        .spinner {
+            border: 3px solid rgba(224, 169, 103, 0.15);
+            border-top-color: #e0a967;
+            border-radius: 50%;
+            width: 22px; height: 22px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Same font stack a native <select>/<option> falls back to — rescues
+           rare combining marks (titlo, pokrytie, breathing marks...) that
+           Ponomar doesn't have glyphs for, instead of showing a tofu box. */
+        .font-fallback-safe {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#0f0f11] text-gray-200 font-sans selection:bg-amber-800 selection:text-amber-100 antialiased">
+
+    <div class="fixed inset-0 pointer-events-none opacity-[0.02] bg-[radial-gradient(#e0a967_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <!-- Шапка / Навігація -->
+    <header class="sticky top-0 z-50 bg-[#0f0f11]/90 backdrop-blur-md border-b border-amber-950/40 px-4 py-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <a href="index.html" title="До лекції" class="monomakh-text text-3xl text-amber-500 font-bold tracking-wider hover:text-amber-400 transition-colors">Ꙋ</a>
+                <div>
+                    <h1 class="text-xs tracking-[0.2em] text-amber-500/80 uppercase font-semibold">Мовний інструмент</h1>
+                    <p class="text-sm text-gray-400 font-medium">AI-генератор церковнослов'янського тексту</p>
+                </div>
+            </div>
+            <nav class="flex gap-2 sm:gap-4 text-xs md:text-sm font-medium">
+                <a href="index.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">&larr; До лекції</a>
+                <a href="fonts.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Тестер шрифтів</a>
+                <a href="jcuken-generator.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Генератор JCUKEN</a>
+                <a href="#generator" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Генератор ЦСМ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10">
+
+        <!-- Герой-блок / Заголовок -->
+        <section class="relative mb-16 text-center py-12 md:py-20 overflow-hidden rounded-3xl border border-amber-950/40 bg-gradient-to-b from-[#18181c] to-[#0f0f11] baroque-glow">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <span class="inline-block text-amber-500/30 font-ponomar text-8xl md:text-9xl mb-4 select-none animate-pulse">Ꙋ</span>
+
+            <h1 class="monomakh-text text-4xl md:text-6xl text-amber-400 max-w-4xl mx-auto leading-tight px-4 font-bold tracking-wide">
+                Генератор церковнослов'янських текстів
+            </h1>
+
+            <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-4 font-serif">
+                Оберіть тему — Gemini напише автентичний фрагмент церковнослов'янською (з ятями ѣ, юсами Ѧ, титлами ҇), а сторінка одразу покаже його гарнітурою <strong class="text-amber-400">Ponomar</strong>.
+            </p>
+
+            <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-xs tracking-wider text-amber-500/80 font-semibold uppercase">
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Gemini 3 · через проксі Cloudflare</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Рендер — гарнітура Ponomar</span>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Ліва колонка: генератор -->
+            <div class="lg:col-span-8 space-y-8">
+
+                <article id="generator" class="bg-[#18181c] p-6 md:p-10 rounded-2xl border border-amber-950/30 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-amber-950/40 text-amber-500 flex items-center justify-center font-bold text-lg monomakh-text">I</span>
+                        <h2 class="text-2xl font-bold text-amber-400 monomakh-text tracking-wide">Тема тексту</h2>
+                    </div>
+
+                    <div class="space-y-3">
+                        <input type="text" id="topicInput" value="Великодній тропар"
+                               class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg px-4 py-3 text-sm md:text-base text-gray-100 focus:outline-none focus:border-amber-500 transition-colors font-serif"
+                               placeholder="напр. Острозька Біблія, напис на дзвоні, Різдвяний кондак...">
+
+                        <!-- Швидкі теми -->
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setTopicAndGenerate('Козацький напис на дзвоні або гарматі XVII століття з описом майстра та датою')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Напис на гарматі
+                            </button>
+                            <button onclick="setTopicAndGenerate('Острозька Біблія: фрагмент з книги Буття про створення світу церковнослов\'янською')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Острозька Біблія
+                            </button>
+                            <button onclick="setTopicAndGenerate('Великодній церковнослов\'янський тропар з титлами')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Великодній тропар
+                            </button>
+                            <button onclick="setTopicAndGenerate('Старовинний дарчий напис на рукописній книзі XVIII століття')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Вкладний напис на книзі
+                            </button>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3">
+                            <button id="generateBtn" onclick="generateCsText()"
+                                    class="flex-1 sm:flex-none bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                <span>Згенерувати</span>
+                            </button>
+                            <button onclick="resetGenerator()"
+                                    class="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-400 hover:text-white text-sm rounded-lg transition-colors">
+                                Очистити
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Loader -->
+                    <div id="genLoader" class="hidden items-center gap-3 text-amber-500/80 text-sm font-serif">
+                        <div class="spinner"></div>
+                        <span>Gemini пише церковнослов'янською…</span>
+                    </div>
+
+                    <!-- Output -->
+                    <div id="outputWrap" class="hidden space-y-5">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Церковнослов'янський текст (Ponomar)</span>
+                                <button onclick="copyCsOutput()" id="copyCsBtn"
+                                        class="text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors">
+                                    Копіювати
+                                </button>
+                            </div>
+                            <div id="csOutput" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 font-ponomar text-amber-100 text-xl md:text-2xl leading-relaxed break-words"></div>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block mb-2">Історичний контекст</span>
+                            <div id="contextOutput" class="p-4 bg-[#0f0f11] rounded-xl border border-amber-950/30 text-gray-300 leading-relaxed font-serif text-sm space-y-2"></div>
+                        </div>
+                    </div>
+
+                    <div id="genError" class="hidden p-4 bg-red-950/20 border border-red-900/40 rounded-lg text-sm text-red-300 font-serif"></div>
+                </article>
+
+            </div>
+
+            <!-- Права колонка: пояснення -->
+            <div class="lg:col-span-4 space-y-8 lg:sticky lg:top-24">
+
+                <div class="bg-gradient-to-b from-[#1c1c22] to-[#141417] p-6 rounded-2xl border border-amber-950/30 space-y-4">
+                    <div class="flex justify-between items-center border-b border-amber-950/40 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold tracking-widest text-amber-500 uppercase">Як це працює</span>
+                            <h3 class="text-lg font-bold text-white monomakh-text tracking-wide mt-1">Дві частини</h3>
+                        </div>
+                        <span class="font-ponomar text-3xl text-amber-500">Ꙋ</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) пише короткий автентичний фрагмент церковнослов'янською — з ятями, юсами, титлами.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        2. Текст показується гарнітурою <a href="fonts.html" class="text-amber-400 hover:text-amber-300 underline">Ponomar</a> — вона вже перевірена на повне покриття рідкісних діакритик, а будь-яку прогалину в самому шрифті підстраховує системний фолбек, як у нативному <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">&lt;select&gt;</code>.
+                    </p>
+                </div>
+
+                <div class="bg-[#18181c] p-6 rounded-2xl border border-amber-950/30 space-y-3">
+                    <h3 class="text-base font-bold text-amber-400 monomakh-text tracking-wide">Більше інструментів</h3>
+                    <a href="fonts.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
+                        <span>Порівняти всі 7 гарнітур</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <a href="keyboard.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
+                        <span>Клавіатура JCUKEN</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <a href="jcuken-generator.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
+                        <span>Генератор JCUKEN текстів</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-16">
+        <p class="mb-2">&copy; 2026 · Експериментальний генератор церковнослов'янського тексту.</p>
+        <p>Текст пише Gemini, рендерить гарнітура Ponomar — та сама, що на сторінці «Тестер шрифтів».</p>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-[#18181c] border border-amber-500/30 text-amber-100 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <span id="toastIcon" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="toastMsg">Скопійовано!</span>
+    </div>
+
+    <script>
+        // --- Gemini call через той самий Cloudflare Worker проксі, що й на
+        // сторінках зі шрифтами/JCUKEN-генератором — ключ ніколи не потрапляє
+        // в цей репозиторій.
+        async function callGeminiApi(promptText, systemInstruction = "") {
+            const apiUrl = "https://proud-butterfly-38a8.nowxel.workers.dev";
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: promptText }] }]
+            };
+            if (systemInstruction) {
+                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+            }
+
+            let delay = 1000;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        let bodyText = '';
+                        try { bodyText = await response.text(); } catch (_) {}
+                        throw new Error(`HTTP ${response.status}: ${bodyText || response.statusText}`);
+                    }
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Не вдалося отримати відповідь від Gemini.";
+                } catch (err) {
+                    if (attempt === 2 || (err.message && /^HTTP 4\d\d/.test(err.message))) throw err;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- Glyph-fallback hardening (той самий підхід, що на fonts.html) ---
+        // Ponomar не завжди має гліфи для рідкісних комбінувальних знаків
+        // (титло, покриття, придихання). Без цього браузер показує порожній
+        // квадратик замість фолбеку, бо вже "закомітився" на Ponomar через
+        // unicode-range. Групуємо кожну літеру з наступними за нею ризикованими
+        // знаками й, якщо такий знак є, підстраховуємо системним шрифтом —
+        // так само, як це вже неявно робить нативний <select>/<option>.
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        const RISKY_MARK = /[̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]/;
+        const CLUSTER_RE = /[\s\S][̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]*/g;
+
+        function hardenGlyphs(rawText, alreadyEscaped = false) {
+            const text = alreadyEscaped ? rawText : escapeHtml(rawText);
+            const clusters = text.match(CLUSTER_RE) || [];
+            return clusters.map(cluster =>
+                RISKY_MARK.test(cluster) ? `<span class="font-fallback-safe">${cluster}</span>` : cluster
+            ).join('');
+        }
+
+        function setTopicAndGenerate(theme) {
+            document.getElementById('topicInput').value = theme;
+            generateCsText();
+        }
+
+        async function generateCsText() {
+            const topic = document.getElementById('topicInput').value.trim() || "випадкова церковна тематика";
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('genLoader');
+            const outputWrap = document.getElementById('outputWrap');
+            const errorBox = document.getElementById('genError');
+
+            btn.disabled = true;
+            loader.classList.remove('hidden');
+            loader.classList.add('flex');
+            outputWrap.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const systemPrompt = "Ти — джерелознавець та майстер старовинної церковнослов'янської каліграфії. Згенеруй автентичний фрагмент церковнослов'янського тексту за вказаною тематикою.";
+            const prompt = `Згенеруй текст за темою: "${topic}".
+Вимоги:
+- Використовуй правильну церковнослов'янську графіку (ѣ, Ѧ, ѡ, ъ, титли).
+- Помісти підсумковий текст у форматі [CS]текст[/CS].
+- Нижче надай короткий історичний контекст українською, 2-4 речення, без заголовків і зайвого markdown.`;
+
+            try {
+                const raw = await callGeminiApi(prompt, systemPrompt);
+                const match = raw.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
+                const csText = match ? match[1].trim() : raw.trim();
+                const context = raw.replace(/\[CS\]([\s\S]*?)\[\/CS\]/, '').trim();
+
+                document.getElementById('csOutput').innerHTML = hardenGlyphs(csText);
+                document.getElementById('contextOutput').innerHTML = context
+                    .split(/\n+/)
+                    .filter(p => p.trim())
+                    .map(p => `<p>${escapeHtml(p.trim())}</p>`)
+                    .join('');
+
+                outputWrap.classList.remove('hidden');
+            } catch (err) {
+                errorBox.textContent = `Помилка запиту до Gemini API: ${(err.message || err).toString()}`;
+                errorBox.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            }
+        }
+
+        function resetGenerator() {
+            document.getElementById('topicInput').value = '';
+            document.getElementById('outputWrap').classList.add('hidden');
+            document.getElementById('genError').classList.add('hidden');
+        }
+
+        function copyCsOutput() {
+            const text = document.getElementById('csOutput').textContent;
+            if (!text) return;
+            const btn = document.getElementById('copyCsBtn');
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.textContent;
+                btn.textContent = 'Скопійовано!';
+                setTimeout(() => { btn.textContent = original; }, 2000);
+            }).catch(() => {
+                btn.textContent = 'Не вдалося скопіювати';
+            });
+        }
+    </script>
+</body>
+</html>
