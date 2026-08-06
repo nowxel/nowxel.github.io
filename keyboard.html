@@ -79,6 +79,44 @@
             color: #fff !important;
         }
 
+        /* iOS-style key-press preview bubble: pops up above the key while
+           it's held down, then shrinks/fades away on release. */
+        #keyCallout {
+            position: fixed;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-width: 44px;
+            padding: 6px 10px 10px;
+            border-radius: 10px;
+            background: #6e6e72;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(8px) scale(0.4);
+            transform-origin: bottom center;
+            transition: transform 0.1s cubic-bezier(.34,1.56,.64,1), opacity 0.08s ease-out;
+        }
+        #keyCallout.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+        #keyCallout::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid #6e6e72;
+        }
+
         /* Native-keyboard dock: full-bleed bar pinned to the bottom of the
            screen on phones, exactly like the iOS/Android system keyboard. */
         #kbDock {
@@ -170,6 +208,9 @@
         <span id="toastMsg">Skopijovano!</span>
     </div>
 
+    <!-- Key-press preview bubble (iOS-style), positioned via JS above whichever key is held -->
+    <div id="keyCallout"></div>
+
     <script>
         // ЙЦУКЕН layout: physical key code -> [Cyrillic letter shown as hint, Latin transliteration actually typed].
         const LETTER_ROWS = [
@@ -256,6 +297,7 @@
                 keysToRender.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
+                    btn.dataset.action = action || '';
                     const isControl = action === 'shift' || action === 'backspace';
                     btn.className = 'key-btn flex-1 min-w-0 h-11 sm:h-16 sm:w-14 sm:flex-none lg:w-16 lg:h-[4.5rem] rounded-md sm:rounded-lg flex flex-col items-center justify-center gap-0 sm:gap-0.5 overflow-hidden shadow-sm sm:shadow-none '
                         + (isControl
@@ -377,6 +419,58 @@
             const btn = document.querySelector(`#keyboard button[data-code="${code}"]`);
             if (btn) btn.classList.toggle('key-active', on);
         }
+
+        // iOS-style key-press preview bubble: shows an enlarged copy of the
+        // key's glyph floating above it while the key is held down.
+        const keyCallout = document.getElementById('keyCallout');
+
+        function showKeyCallout(btn) {
+            const spans = btn.querySelectorAll('span');
+            let hint = '', main = '';
+            if (spans.length === 2) {
+                hint = spans[0].innerHTML;
+                main = spans[1].innerHTML;
+            } else if (spans.length === 1) {
+                main = spans[0].innerHTML;
+            } else {
+                return;
+            }
+            keyCallout.innerHTML = hint
+                ? `<span class="block text-[10px] text-gray-300 font-semibold leading-none mb-1">${hint}</span><span class="block text-2xl sm:text-3xl font-bold text-amber-300 leading-none">${main}</span>`
+                : `<span class="block text-2xl sm:text-3xl font-bold text-amber-300 leading-none">${main}</span>`;
+
+            const rect = btn.getBoundingClientRect();
+            keyCallout.classList.remove('show');
+            keyCallout.style.visibility = 'hidden';
+            keyCallout.style.width = Math.max(rect.width, 44) + 'px';
+            // Measure with the bubble already sized/filled but still hidden,
+            // so we can place its bottom edge just above the key.
+            const h = keyCallout.offsetHeight || 56;
+            keyCallout.style.left = (rect.left + rect.width / 2) + 'px';
+            keyCallout.style.top = (rect.top - h - 6) + 'px';
+            keyCallout.style.visibility = 'visible';
+            // Force one frame at the base (scaled-down) transform before
+            // adding .show, so the pop-in transition actually animates.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => keyCallout.classList.add('show'));
+            });
+        }
+
+        function hideKeyCallout() {
+            keyCallout.classList.remove('show');
+        }
+
+        const kbEl = document.getElementById('keyboard');
+        kbEl.addEventListener('pointerdown', (e) => {
+            const btn = e.target.closest('.key-btn');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'shift' || action === 'backspace') return;
+            showKeyCallout(btn);
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt => {
+            document.addEventListener(evt, hideKeyCallout);
+        });
 
         // Physical keyboard support: intercept only the codes we've mapped, so
         // Space/Backspace/Enter/arrows and browser shortcuts keep working normally.
