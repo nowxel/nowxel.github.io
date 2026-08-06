@@ -187,7 +187,7 @@
                 ['VirtualShift', '', '&#8679;', 'shift'],
                 ['KeyZ', 'Я', 'ja'], ['KeyX', 'Ч', 'ċ'], ['KeyC', 'С', 's'], ['KeyV', 'М', 'm'], ['KeyB', 'И', 'y'],
                 ['KeyN', 'Т', 't'], ['KeyM', 'Ь', '◌̣', 'dotBelow'], ['Comma', 'Б', 'b'], ['Period', 'Ю', 'ü'],
-                ['Backquote', 'Ґ', 'g'], ['VirtualBackspace', '', '⌫', 'backspace']
+                ['Backquote', 'Ґ', 'g'], ['VirtualComma', '', ','], ['VirtualPeriod', '', '.'], ['VirtualBackspace', '', '⌫', 'backspace']
             ]
         ];
 
@@ -231,9 +231,20 @@
             });
         });
 
+        // Matches Tailwind's `sm` breakpoint — below it we're on a phone.
+        function isDesktopLayout() {
+            return window.matchMedia('(min-width: 640px)').matches;
+        }
+
+        // On phones, comma/period only live on the 123 page (less clutter
+        // in the main letters row); on desktop there's room to keep them
+        // directly on the letters keyboard too.
+        const MOBILE_ONLY_HIDE = ['VirtualComma', 'VirtualPeriod'];
+
         function buildKeyboard() {
             const kb = document.getElementById('keyboard');
             kb.innerHTML = '';
+            const desktop = isDesktopLayout();
             const rows = currentLayout === 'letters' ? LETTER_ROWS : SYMBOL_ROWS;
             rows.forEach((row, rowIndex) => {
                 const rowDiv = document.createElement('div');
@@ -241,7 +252,8 @@
                 // native iOS/Android Cyrillic keyboard offsets its middle row.
                 const inset = rowIndex === 1 ? 'px-[3%] sm:px-0' : '';
                 rowDiv.className = `flex justify-center gap-1 sm:gap-1.5 flex-nowrap ${inset}`;
-                row.forEach(([code, cyrillicHint, latin, action]) => {
+                const keysToRender = desktop ? row : row.filter(([code]) => !MOBILE_ONLY_HIDE.includes(code));
+                keysToRender.forEach(([code, cyrillicHint, latin, action]) => {
                     const btn = document.createElement('button');
                     btn.dataset.code = code;
                     const isControl = action === 'shift' || action === 'backspace';
