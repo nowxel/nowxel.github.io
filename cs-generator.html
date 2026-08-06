@@ -313,6 +313,17 @@
         topicInputEl.addEventListener('input', updateClearBtnVisibility);
         updateClearBtnVisibility(); // input starts pre-filled with a default topic
 
+        // Enter in the topic field acts like clicking "Згенерувати" — there's
+        // no <form> here, so Enter would otherwise do nothing at all.
+        topicInputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (!document.getElementById('generateBtn').disabled) {
+                    generateCsText();
+                }
+            }
+        });
+
         function setTopicAndGenerate(theme) {
             topicInputEl.value = theme;
             updateClearBtnVisibility();
