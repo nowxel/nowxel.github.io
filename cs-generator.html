@@ -12,10 +12,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 
-    <!-- Google Fonts: Monomakh для заголовків, Ponomar — для церковнослов'янського тексту, Montserrat для інтерфейсу -->
+    <!-- Google Fonts: Monomakh для заголовків, Ponomar для декору, Inter — для рендеру болгаризованого церковнослов'янського виводу, Montserrat для інтерфейсу -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Ponomar&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Ponomar&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS для побудови адаптивної структури -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,6 +26,7 @@
                     fontFamily: {
                         monomakh: ['Monomakh', 'serif'],
                         ponomar: ['Ponomar', 'serif'],
+                        inter: ['Inter', 'sans-serif'],
                         serif: ['Montserrat', 'sans-serif'],
                         sans: ['Montserrat', 'sans-serif'],
                     },
@@ -61,7 +62,7 @@
 
         /* Same font stack a native <select>/<option> falls back to — rescues
            rare combining marks (titlo, pokrytie, breathing marks...) that
-           Ponomar doesn't have glyphs for, instead of showing a tofu box. */
+           Inter doesn't have glyphs for, instead of showing a tofu box. */
         .font-fallback-safe {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
@@ -103,13 +104,15 @@
             </h1>
 
             <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-4 font-serif">
-                Оберіть тему — Gemini напише автентичний фрагмент церковнослов'янською (з ятями ѣ, юсами Ѧ, титлами ҇), а сторінка одразу покаже його гарнітурою <strong class="text-amber-400">Ponomar</strong>.
+                Оберіть тему — Gemini напише автентичний фрагмент церковнослов'янською (з ятями ѣ, юсами Ѧ, титлами ҇) за болгарською локалізацією, а сторінка одразу покаже його гарнітурою <strong class="text-amber-400">Inter</strong>.
             </p>
 
             <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-xs tracking-wider text-amber-500/80 font-semibold uppercase">
                 <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Gemini 3 · через проксі Cloudflare</span>
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
-                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Рендер — гарнітура Ponomar</span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Рендер — гарнітура Inter</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">lang="bg"</span>
             </div>
         </section>
 
@@ -167,13 +170,13 @@
                     <div id="outputWrap" class="hidden space-y-5">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Церковнослов'янський текст (Ponomar)</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Церковнослов'янський текст (Inter, болгарська локалізація)</span>
                                 <button onclick="copyCsOutput()" id="copyCsBtn"
                                         class="text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors">
                                     Копіювати
                                 </button>
                             </div>
-                            <div id="csOutput" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 font-ponomar text-amber-100 text-xl md:text-2xl leading-relaxed break-words"></div>
+                            <div id="csOutput" lang="bg" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 font-inter text-amber-100 text-xl md:text-2xl leading-relaxed break-words"></div>
                         </div>
                         <div>
                             <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block mb-2">Історичний контекст</span>
@@ -198,10 +201,10 @@
                         <span class="font-ponomar text-3xl text-amber-500">Ꙋ</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed font-serif">
-                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) пише короткий автентичний фрагмент церковнослов'янською — з ятями, юсами, титлами.
+                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) пише короткий автентичний фрагмент церковнослов'янською за болгарською локалізацією — з ятями, юсами, титлами.
                     </p>
                     <p class="text-xs text-gray-400 leading-relaxed font-serif">
-                        2. Текст показується гарнітурою <a href="fonts.html" class="text-amber-400 hover:text-amber-300 underline">Ponomar</a> — вона вже перевірена на повне покриття рідкісних діакритик, а будь-яку прогалину в самому шрифті підстраховує системний фолбек, як у нативному <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">&lt;select&gt;</code>.
+                        2. Текст показується гарнітурою <strong class="text-amber-400">Inter</strong> (замінили декоративний <a href="fonts.html" class="text-amber-400 hover:text-amber-300 underline">Ponomar</a>) і позначається як <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">lang="bg"</code>. Рідкісні діакритики, яких Inter не покриває, підстраховує системний фолбек — так само, як це неявно робить нативний <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">&lt;select&gt;</code>.
                     </p>
                 </div>
 
@@ -229,7 +232,7 @@
 
     <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-16">
         <p class="mb-2">&copy; 2026 · Експериментальний генератор церковнослов'янського тексту.</p>
-        <p>Текст пише Gemini, рендерить гарнітура Ponomar — та сама, що на сторінці «Тестер шрифтів».</p>
+        <p>Текст пише Gemini за болгарською локалізацією, рендерить гарнітура Inter (позначено як <code>lang="bg"</code>).</p>
     </footer>
 
     <!-- Toast -->
@@ -275,9 +278,9 @@
         }
 
         // --- Glyph-fallback hardening (той самий підхід, що на fonts.html) ---
-        // Ponomar не завжди має гліфи для рідкісних комбінувальних знаків
+        // Inter не завжди має гліфи для рідкісних комбінувальних знаків
         // (титло, покриття, придихання). Без цього браузер показує порожній
-        // квадратик замість фолбеку, бо вже "закомітився" на Ponomar через
+        // квадратик замість фолбеку, бо вже "закомітився" на Inter через
         // unicode-range. Групуємо кожну літеру з наступними за нею ризикованими
         // знаками й, якщо такий знак є, підстраховуємо системним шрифтом —
         // так само, як це вже неявно робить нативний <select>/<option>.
@@ -313,10 +316,10 @@
             outputWrap.classList.add('hidden');
             errorBox.classList.add('hidden');
 
-            const systemPrompt = "Ти — джерелознавець та майстер старовинної церковнослов'янської каліграфії. Згенеруй автентичний фрагмент церковнослов'янського тексту за вказаною тематикою.";
+            const systemPrompt = "Ти — джерелознавець та майстер старовинної церковнослов'янської каліграфії болгарської редакції (традиція Тирновської школи, як у болгарських літургійних та académічних виданнях). Згенеруй автентичний фрагмент церковнослов'янського тексту за вказаною тематикою, дотримуючись болгарської локалізації правопису та наголосів.";
             const prompt = `Згенеруй текст за темою: "${topic}".
 Вимоги:
-- Використовуй правильну церковнослов'янську графіку (ѣ, Ѧ, ѡ, ъ, титли).
+- Використовуй болгарську редакцію церковнослов'янської графіки (ѣ, Ѧ, ѡ, ъ, титли).
 - Помісти підсумковий текст у форматі [CS]текст[/CS].
 - Нижче надай короткий історичний контекст українською, 2-4 речення, без заголовків і зайвого markdown.`;
 
