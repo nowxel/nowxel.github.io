@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Klaviatura JCUKEN</title>
 
     <!-- Favicon -->
@@ -43,6 +43,18 @@
     </script>
 
     <style>
+        /* Rapid taps on adjacent keys were getting misread as a double-tap
+           "zoom in" gesture on mobile Chrome/Safari. touch-action:
+           manipulation disables that double-tap-zoom (and the ~300ms tap
+           delay) on every interactive element, on top of locking the page
+           zoom itself via the viewport meta tag above. */
+        html, body {
+            touch-action: manipulation;
+        }
+        button, .key-btn {
+            touch-action: manipulation;
+        }
+
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0f0f11; }
         ::-webkit-scrollbar-thumb { background: #b46e31; border-radius: 4px; }
