@@ -150,7 +150,7 @@
                 <button id="layoutToggleBtn" onclick="toggleLayout()" class="key-btn w-14 sm:w-16 py-2.5 sm:py-3 rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
                     123
                 </button>
-                <button onclick="insertChar(' ')" class="key-btn flex-1 py-2.5 sm:py-3 sm:max-w-xs sm:mx-auto rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
+                <button onclick="pressSpace()" class="key-btn flex-1 py-2.5 sm:py-3 sm:max-w-xs sm:mx-auto rounded-md sm:rounded-lg bg-[#3a3a3c] sm:bg-[#0f0f11] sm:border sm:border-amber-950/40 text-xs sm:text-sm font-semibold text-gray-200 sm:text-gray-400 active:bg-[#5a5a5c] sm:hover:bg-amber-950/20 sm:hover:text-amber-300 transition">
                     Probil
                 </button>
                 <button onclick="insertNewline()" class="key-btn w-14 sm:w-16 py-2.5 sm:py-3 rounded-md sm:rounded-lg bg-amber-700 text-white text-base sm:text-lg font-semibold active:bg-amber-600 hover:bg-amber-600 transition">
@@ -187,7 +187,7 @@
                 ['VirtualShift', '', '&#8679;', 'shift'],
                 ['KeyZ', 'Я', 'ja'], ['KeyX', 'Ч', 'ċ'], ['KeyC', 'С', 's'], ['KeyV', 'М', 'm'], ['KeyB', 'И', 'y'],
                 ['KeyN', 'Т', 't'], ['KeyM', 'Ь', '◌̣', 'dotBelow'], ['Comma', 'Б', 'b'], ['Period', 'Ю', 'ü'],
-                ['Backquote', 'Ґ', 'g'], ['VirtualComma', '', ','], ['VirtualPeriod', '', '.'], ['VirtualBackspace', '', '⌫', 'backspace']
+                ['Backquote', 'Ґ', 'g'], ['VirtualBackspace', '', '⌫', 'backspace']
             ]
         ];
 
@@ -287,6 +287,18 @@
 
         function insertNewline() {
             insertChar('\n');
+        }
+
+        // Space always inserts a space — but if it's pressed while the
+        // numbers/symbols page is open, it also hops back to the letters
+        // layout, since that's the only reason to leave the 123 page anyway.
+        function pressSpace() {
+            insertChar(' ');
+            if (currentLayout === 'symbols') {
+                currentLayout = 'letters';
+                document.getElementById('layoutToggleBtn').textContent = '123';
+                buildKeyboard();
+            }
         }
 
         function insertChar(ch) {
