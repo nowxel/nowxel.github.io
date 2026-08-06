@@ -131,9 +131,15 @@
                     </div>
 
                     <div class="space-y-3">
-                        <input type="text" id="topicInput" value="Великодній тропар"
-                               class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg px-4 py-3 text-sm md:text-base text-gray-100 focus:outline-none focus:border-amber-500 transition-colors font-serif"
-                               placeholder="напр. Острозька Біблія, напис на дзвоні, Різдвяний кондак...">
+                        <div class="relative">
+                            <input type="text" id="topicInput" value="Великодній тропар"
+                                   class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg pl-4 pr-10 py-3 text-sm md:text-base text-gray-100 focus:outline-none focus:border-amber-500 transition-colors font-serif"
+                                   placeholder="напр. Острозька Біблія, напис на дзвоні, Різдвяний кондак...">
+                            <button type="button" id="clearTopicBtn" onclick="clearTopicInput()" aria-label="Стерти тему"
+                                    class="hidden absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-600 text-gray-300 text-xs transition">
+                                &#10005;
+                            </button>
+                        </div>
 
                         <!-- Швидкі теми -->
                         <div class="flex flex-wrap gap-2">
@@ -291,8 +297,25 @@
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
+        const topicInputEl = document.getElementById('topicInput');
+        const clearTopicBtn = document.getElementById('clearTopicBtn');
+
+        function updateClearBtnVisibility() {
+            clearTopicBtn.classList.toggle('hidden', !topicInputEl.value);
+        }
+
+        function clearTopicInput() {
+            topicInputEl.value = '';
+            updateClearBtnVisibility();
+            topicInputEl.focus();
+        }
+
+        topicInputEl.addEventListener('input', updateClearBtnVisibility);
+        updateClearBtnVisibility(); // input starts pre-filled with a default topic
+
         function setTopicAndGenerate(theme) {
-            document.getElementById('topicInput').value = theme;
+            topicInputEl.value = theme;
+            updateClearBtnVisibility();
             generateCsText();
         }
 
@@ -341,7 +364,8 @@
         }
 
         function resetGenerator() {
-            document.getElementById('topicInput').value = '';
+            topicInputEl.value = '';
+            updateClearBtnVisibility();
             document.getElementById('outputWrap').classList.add('hidden');
             document.getElementById('genError').classList.add('hidden');
         }
