@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Генератор церковнослов'янських текстів</title>
+    <title>Генератор «словеноруської» мови Сковороди</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -12,10 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 
-    <!-- Google Fonts: Monomakh для заголовків, Ponomar для декору, Montserrat для інтерфейсу.
-         Сам церковнослов'янський вивід НЕ вантажить жодного вебфонту — рендериться
-         системним UI-шрифтом ОС/браузера (як нативний <select>), щоб гарантувати
-         повне покриття гліфів без ризику "тофу"-квадратиків. -->
+    <!-- Google Fonts: Monomakh для заголовків, Ponomar — для рендеру словеноруського виводу (та сама ідея, з якою починали cs-generator.html), Montserrat для інтерфейсу -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monomakh&family=Ponomar&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -62,10 +59,9 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Same font stack a native <select>/<option> falls back to. No
-           decorative webfont is loaded for the CS output at all — this IS
-           its font, guaranteeing full glyph coverage (ѣ, ѧ, ѹ, titli,
-           breathing marks...) with zero risk of tofu boxes. */
+        /* Same font stack a native <select>/<option> falls back to — rescues
+           rare combining marks (titlo, pokrytie, breathing marks...) that
+           Ponomar doesn't have glyphs for, instead of showing a tofu box. */
         .font-fallback-safe {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
@@ -82,15 +78,14 @@
                 <a href="index.html" title="До лекції" class="monomakh-text text-3xl text-amber-500 font-bold tracking-wider hover:text-amber-400 transition-colors">Ꙋ</a>
                 <div>
                     <h1 class="text-xs tracking-[0.2em] text-amber-500/80 uppercase font-semibold">Мовний інструмент</h1>
-                    <p class="text-sm text-gray-400 font-medium">AI-генератор церковнослов'янського тексту</p>
+                    <p class="text-sm text-gray-400 font-medium">AI-генератор «словеноруської» мови Сковороди</p>
                 </div>
             </div>
             <nav class="flex gap-2 sm:gap-4 text-xs md:text-sm font-medium">
                 <a href="index.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">&larr; До лекції</a>
                 <a href="fonts.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Тестер шрифтів</a>
-                <a href="jcuken-generator.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Генератор JCUKEN</a>
-                <a href="skovoroda-generator.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Сковорода</a>
-                <a href="#generator" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Генератор ЦСМ</a>
+                <a href="cs-generator.html" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-gray-400 hover:text-amber-400 transition-all">Генератор ЦСМ</a>
+                <a href="#generator" class="px-3 py-1.5 rounded-md hover:bg-amber-950/30 text-amber-500 font-semibold border border-amber-500/20 bg-amber-950/20 shadow-md shadow-amber-950/10 transition-all">Генератор Сковороди</a>
             </nav>
         </div>
     </header>
@@ -101,22 +96,20 @@
         <section class="relative mb-16 text-center py-12 md:py-20 overflow-hidden rounded-3xl border border-amber-950/40 bg-gradient-to-b from-[#18181c] to-[#0f0f11] baroque-glow">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-            <span class="inline-block text-amber-500/30 font-ponomar text-8xl md:text-9xl mb-4 select-none animate-pulse">Ꙋ</span>
+            <span class="inline-block text-amber-500/30 font-ponomar text-8xl md:text-9xl mb-4 select-none animate-pulse">Ѵ</span>
 
             <h1 class="monomakh-text text-4xl md:text-6xl text-amber-400 max-w-4xl mx-auto leading-tight px-4 font-bold tracking-wide">
-                Генератор церковнослов'янських текстів
+                Сковородинівська «словеноруська»
             </h1>
 
             <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-4 font-serif">
-                Оберіть тему — Gemini напише автентичний фрагмент церковнослов'янською (з ятями ѣ, юсами Ѧ, титлами ҇) за болгарською локалізацією, а сторінка покаже його <strong class="text-amber-400">без жодного вебфонту</strong> — суто системним шрифтом ОС/браузера.
+                Оберіть тему — Gemini напише короткий фрагмент мовою філософських діалогів і трактатів <strong class="text-amber-400">Григорія Сковороди</strong>: сумішшю церковнослов'янської та української розмовної лексики, з афоризмами й біблійними алюзіями, гарнітурою <strong class="text-amber-400">Ponomar</strong>.
             </p>
 
             <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-xs tracking-wider text-amber-500/80 font-semibold uppercase">
                 <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Gemini 3 · через проксі Cloudflare</span>
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
-                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Рендер — системний фолбек</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500/40"></span>
-                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">lang="bg"</span>
+                <span class="bg-[#212126] px-3 py-1.5 rounded-full border border-amber-950/30">Рендер — гарнітура Ponomar</span>
             </div>
         </section>
 
@@ -133,9 +126,9 @@
 
                     <div class="space-y-3">
                         <div class="relative">
-                            <input type="text" id="topicInput" value="Великодній тропар"
+                            <input type="text" id="topicInput" value="Про сродну працю"
                                    class="w-full bg-[#0f0f11] border border-amber-950/40 rounded-lg pl-4 pr-10 py-3 text-sm md:text-base text-gray-100 focus:outline-none focus:border-amber-500 transition-colors font-serif"
-                                   placeholder="напр. Острозька Біблія, напис на дзвоні, Різдвяний кондак...">
+                                   placeholder="напр. Пізнай себе, Марнота світу, Байка про Бджолу і Шершня...">
                             <button type="button" id="clearTopicBtn" onclick="clearTopicInput()" aria-label="Стерти тему"
                                     class="hidden absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-zinc-700 hover:bg-zinc-600 text-gray-300 text-xs transition">
                                 &#10005;
@@ -144,22 +137,22 @@
 
                         <!-- Швидкі теми -->
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="setTopicAndGenerate('Козацький напис на дзвоні або гарматі XVII століття з описом майстра та датою')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
-                                Напис на гарматі
+                            <button onclick="setTopicAndGenerate('Про сродну працю — головну ідею філософії Сковороди')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Про сродну працю
                             </button>
-                            <button onclick="setTopicAndGenerate('Острозька Біблія: фрагмент з книги Буття про створення світу церковнослов\'янською')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
-                                Острозька Біблія
+                            <button onclick="setTopicAndGenerate('Пізнай самого себе — сократівський мотив у діалогах Сковороди')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Пізнай самого себе
                             </button>
-                            <button onclick="setTopicAndGenerate('Великодній церковнослов\'янський тропар з титлами')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
-                                Великодній тропар
+                            <button onclick="setTopicAndGenerate('Про марноту й суєту зовнішнього світу')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Марнота світу
                             </button>
-                            <button onclick="setTopicAndGenerate('Старовинний дарчий напис на рукописній книзі XVIII століття')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
-                                Вкладний напис на книзі
+                            <button onclick="setTopicAndGenerate('Байка про Бджолу і Шершня в стилі харківських байок Сковороди')" class="px-3 py-1.5 bg-[#212126] hover:bg-amber-950/40 text-xs text-gray-300 rounded-lg transition border border-amber-950/30">
+                                Байка про Бджолу і Шершня
                             </button>
                         </div>
 
                         <div class="flex flex-wrap gap-3">
-                            <button id="generateBtn" onclick="generateCsText()"
+                            <button id="generateBtn" onclick="generateSkovorodaText()"
                                     class="flex-1 sm:flex-none bg-amber-700 hover:bg-amber-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
                                 <span>Згенерувати</span>
                             </button>
@@ -173,23 +166,23 @@
                     <!-- Loader -->
                     <div id="genLoader" class="hidden items-center gap-3 text-amber-500/80 text-sm font-serif">
                         <div class="spinner"></div>
-                        <span>Gemini пише церковнослов'янською…</span>
+                        <span>Gemini пише словеноруською…</span>
                     </div>
 
                     <!-- Output -->
                     <div id="outputWrap" class="hidden space-y-5">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Церковнослов'янський текст (системний фолбек, болгарська локалізація)</span>
-                                <button onclick="copyCsOutput()" id="copyCsBtn"
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block">Словеноруський текст (Ponomar)</span>
+                                <button onclick="copySkText()" id="copySkBtn"
                                         class="text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors">
                                     Копіювати
                                 </button>
                             </div>
-                            <div id="csOutput" lang="bg" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 font-fallback-safe text-amber-100 text-xl md:text-2xl leading-relaxed break-words"></div>
+                            <div id="skOutput" class="p-4 bg-amber-950/10 rounded-xl border border-amber-500/30 font-ponomar text-amber-100 text-xl md:text-2xl leading-relaxed break-words"></div>
                         </div>
                         <div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block mb-2">Історичний контекст</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-amber-500/70 block mb-2">Пояснення особливостей</span>
                             <div id="contextOutput" class="p-4 bg-[#0f0f11] rounded-xl border border-amber-950/30 text-gray-300 leading-relaxed font-serif text-sm space-y-2"></div>
                         </div>
                     </div>
@@ -205,31 +198,45 @@
                 <div class="bg-gradient-to-b from-[#1c1c22] to-[#141417] p-6 rounded-2xl border border-amber-950/30 space-y-4">
                     <div class="flex justify-between items-center border-b border-amber-950/40 pb-4">
                         <div>
-                            <span class="text-xs font-semibold tracking-widest text-amber-500 uppercase">Як це працює</span>
-                            <h3 class="text-lg font-bold text-white monomakh-text tracking-wide mt-1">Дві частини</h3>
+                            <span class="text-xs font-semibold tracking-widest text-amber-500 uppercase">Що це за мова</span>
+                            <h3 class="text-lg font-bold text-white monomakh-text tracking-wide mt-1">«Словеноруська»</h3>
                         </div>
-                        <span class="font-ponomar text-3xl text-amber-500">Ꙋ</span>
+                        <span class="font-ponomar text-3xl text-amber-500">Ѵ</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed font-serif">
-                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) пише короткий автентичний фрагмент церковнослов'янською за болгарською локалізацією — з ятями, юсами, титлами.
+                        Мовознавці визначають мову Григорія Сковороди (1722–1794) як <strong class="text-amber-400">словеноруську</strong> (слов'яноруську) — суміш церковнослов'янської та староукраїнської книжної мови, з домішком розмовних і фольклорних елементів та російської фразеології.
                     </p>
                     <p class="text-xs text-gray-400 leading-relaxed font-serif">
-                        2. Текст показується <strong class="text-amber-400">без жодного вебфонту</strong> — тим самим системним UI-шрифтом, яким браузер малює нативний <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">&lt;select&gt;</code>. Це гарантує повне покриття гліфів (ѣ, ѧ, ѹ, титли) без ризику "тофу"-квадратиків — і позначається як <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">lang="bg"</code>.
+                        Найгустіше вона проявляється у філософських діалогах і трактатах («Наркісс», «Асхань») — з філософською термінологією, багатою фразеологією, приказками, біблійними алюзіями. Поезії й байки Сковорода писав ближче до книжної української, з меншою кількістю церковнослов'янізмів.
+                    </p>
+                </div>
+
+                <div class="bg-[#18181c] p-6 rounded-2xl border border-amber-950/30 space-y-4">
+                    <h3 class="text-base font-bold text-amber-400 monomakh-text tracking-wide">Як це працює</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        1. <span class="text-amber-400 font-semibold">Gemini 3</span> (через захищений проксі Cloudflare, без відкритого API-ключа) стилізує короткий фрагмент під словеноруську мову за вказаною темою.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed font-serif">
+                        2. Текст показується гарнітурою <a href="fonts.html" class="text-amber-400 hover:text-amber-300 underline">Ponomar</a> — тією самою ідеєю, з якою починали й <a href="cs-generator.html" class="text-amber-400 hover:text-amber-300 underline">Генератор церковнослов'янських текстів</a>. Рідкісні діакритики, яких Ponomar не покриває, підстраховує системний фолбек — так само, як це неявно робить нативний <code class="px-1 py-0.5 bg-[#0f0f11] border border-amber-950/40 rounded text-[10px]">&lt;select&gt;</code>.
                     </p>
                 </div>
 
                 <div class="bg-[#18181c] p-6 rounded-2xl border border-amber-950/30 space-y-3">
                     <h3 class="text-base font-bold text-amber-400 monomakh-text tracking-wide">Більше інструментів</h3>
+                    <a href="cs-generator.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
+                        <span>Генератор церковнослов'янських текстів</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
                     <a href="fonts.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
                         <span>Порівняти всі 7 гарнітур</span>
                         <span aria-hidden="true">&rarr;</span>
                     </a>
-                    <a href="keyboard.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
-                        <span>Клавіатура JCUKEN</span>
-                        <span aria-hidden="true">&rarr;</span>
-                    </a>
                     <a href="jcuken-generator.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
                         <span>Генератор JCUKEN текстів</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <a href="keyboard.html" class="flex items-center justify-between gap-2 text-xs font-semibold text-gray-300 hover:text-amber-400 transition p-2.5 rounded-lg bg-[#212126] border border-amber-950/30">
+                        <span>Клавіатура JCUKEN</span>
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
@@ -238,11 +245,18 @@
 
         </div>
 
+        <!-- Довідка про епітафію -->
+        <section class="mt-8 bg-[#18181c] rounded-2xl p-6 border border-amber-950/30">
+            <p class="text-xs text-gray-500 leading-relaxed font-serif">
+                Сковорода заповів на своїй могилі напис: <em class="text-amber-400">«Світ ловив мене, але не поймав»</em> — фраза, що й досі лишається найвідомішим зразком його стилю: коротка, афористична, з церковнослов'янським відтінком лексики поверх української синтаксичної основи.
+            </p>
+        </section>
+
     </main>
 
     <footer class="bg-[#0b0b0d] border-t border-amber-950/40 py-8 text-center text-[11px] text-gray-500 mt-16">
-        <p class="mb-2">&copy; 2026 · Експериментальний генератор церковнослов'янського тексту.</p>
-        <p>Текст пише Gemini за болгарською локалізацією; рендерить без вебфонту, суто системним фолбеком (позначено як <code>lang="bg"</code>).</p>
+        <p class="mb-2">&copy; 2026 · Експериментальний генератор словеноруської мови Григорія Сковороди.</p>
+        <p>Текст пише Gemini, рендерить гарнітура Ponomar — та сама, що на сторінці «Тестер шрифтів».</p>
     </footer>
 
     <!-- Toast -->
@@ -253,8 +267,7 @@
 
     <script>
         // --- Gemini call через той самий Cloudflare Worker проксі, що й на
-        // сторінках зі шрифтами/JCUKEN-генератором — ключ ніколи не потрапляє
-        // в цей репозиторій.
+        // інших сторінках-генераторах — ключ ніколи не потрапляє в цей репозиторій.
         async function callGeminiApi(promptText, systemInstruction = "") {
             const apiUrl = "https://proud-butterfly-38a8.nowxel.workers.dev";
             const payload = {
@@ -287,15 +300,26 @@
             }
         }
 
-        // No decorative webfont is loaded for the CS output — the whole
-        // #csOutput block already carries .font-fallback-safe (the same
-        // system UI-font stack a native <select>/<option> falls back to),
-        // so every glyph — base letters and rare combining marks (titlo,
-        // pokrytie, breathing marks...) alike — gets full OS-level Unicode
-        // coverage without ever risking a tofu box. No per-cluster
-        // font-swapping needed here; a plain escape is enough.
+        // --- Glyph-fallback hardening (той самий підхід, що на fonts.html та
+        // в оригінальній ідеї cs-generator.html) ---
+        // Ponomar не завжди має гліфи для рідкісних комбінувальних знаків
+        // (титло, покриття, придихання). Без цього браузер показує порожній
+        // квадратик замість фолбеку, бо вже "закомітився" на Ponomar через
+        // unicode-range. Групуємо кожну літеру з наступними за нею ризикованими
+        // знаками й, якщо такий знак є, підстраховуємо системним шрифтом —
+        // так само, як це вже неявно робить нативний <select>/<option>.
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        const RISKY_MARK = /[̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]/;
+        const CLUSTER_RE = /[\s\S][̀-ͯ҃-҉ⷠ-ⷿ꙯-ꙿ]*/g;
+
+        function hardenGlyphs(rawText, alreadyEscaped = false) {
+            const text = alreadyEscaped ? rawText : escapeHtml(rawText);
+            const clusters = text.match(CLUSTER_RE) || [];
+            return clusters.map(cluster =>
+                RISKY_MARK.test(cluster) ? `<span class="font-fallback-safe">${cluster}</span>` : cluster
+            ).join('');
         }
 
         const topicInputEl = document.getElementById('topicInput');
@@ -320,7 +344,7 @@
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (!document.getElementById('generateBtn').disabled) {
-                    generateCsText();
+                    generateSkovorodaText();
                 }
             }
         });
@@ -328,11 +352,11 @@
         function setTopicAndGenerate(theme) {
             topicInputEl.value = theme;
             updateClearBtnVisibility();
-            generateCsText();
+            generateSkovorodaText();
         }
 
-        async function generateCsText() {
-            const topic = document.getElementById('topicInput').value.trim() || "випадкова церковна тематика";
+        async function generateSkovorodaText() {
+            const topic = topicInputEl.value.trim() || "про сродну працю";
             const btn = document.getElementById('generateBtn');
             const loader = document.getElementById('genLoader');
             const outputWrap = document.getElementById('outputWrap');
@@ -344,20 +368,20 @@
             outputWrap.classList.add('hidden');
             errorBox.classList.add('hidden');
 
-            const systemPrompt = "Ти — джерелознавець та майстер старовинної церковнослов'янської каліграфії болгарської редакції (традиція Тирновської школи, як у болгарських літургійних та académічних виданнях). Згенеруй автентичний фрагмент церковнослов'янського тексту за вказаною тематикою, дотримуючись болгарської локалізації правопису та наголосів.";
-            const prompt = `Згенеруй текст за темою: "${topic}".
+            const systemPrompt = "Ти — фахівець з творчості Григорія Сковороди та історії української літературної мови. Пиши стилізовані фрагменти \"словеноруською\" мовою Сковороди — мовою його філософських діалогів і трактатів (\"Наркісс\", \"Асхань\"): суміш церковнослов'янської та староукраїнської книжної лексики, з філософською термінологією, багатою фразеологією, приказками, біблійними алюзіями та бароковими метафорами. Використовуй ѣ, ъ, титла де це стилістично доречно.";
+            const prompt = `Згенеруй короткий фрагмент "словеноруською" мовою Сковороди на тему: "${topic}".
 Вимоги:
-- Використовуй болгарську редакцію церковнослов'янської графіки (ѣ, Ѧ, ѡ, ъ, титли).
+- Стилізуй під філософський діалог або трактат Сковороди — з афоризмами, метафорами, біблійними алюзіями.
 - Помісти підсумковий текст у форматі [CS]текст[/CS].
-- Нижче надай короткий історичний контекст українською, 2-4 речення, без заголовків і зайвого markdown.`;
+- Нижче надай короткий пояснювальний контекст українською (2-4 речення) про те, які особливості словеноруської мови видно в цьому фрагменті.`;
 
             try {
                 const raw = await callGeminiApi(prompt, systemPrompt);
                 const match = raw.match(/\[CS\]([\s\S]*?)\[\/CS\]/);
-                const csText = match ? match[1].trim() : raw.trim();
+                const skText = match ? match[1].trim() : raw.trim();
                 const context = raw.replace(/\[CS\]([\s\S]*?)\[\/CS\]/, '').trim();
 
-                document.getElementById('csOutput').innerHTML = escapeHtml(csText);
+                document.getElementById('skOutput').innerHTML = hardenGlyphs(skText);
                 document.getElementById('contextOutput').innerHTML = context
                     .split(/\n+/)
                     .filter(p => p.trim())
@@ -382,10 +406,10 @@
             document.getElementById('genError').classList.add('hidden');
         }
 
-        function copyCsOutput() {
-            const text = document.getElementById('csOutput').textContent;
+        function copySkText() {
+            const text = document.getElementById('skOutput').textContent;
             if (!text) return;
-            const btn = document.getElementById('copyCsBtn');
+            const btn = document.getElementById('copySkBtn');
             navigator.clipboard.writeText(text).then(() => {
                 const original = btn.textContent;
                 btn.textContent = 'Скопійовано!';
