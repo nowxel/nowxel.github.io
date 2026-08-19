@@ -381,6 +381,23 @@
             el.value = el.value.substring(0, start) + ch + el.value.substring(end);
             el.focus();
             el.selectionStart = el.selectionEnd = start + ch.length;
+            checkAutoCapitalize();
+        }
+
+        // Auto-capitalize: right after a sentence-ending punctuation mark
+        // (. ! ?) arm Shift for just the next letter, same as a phone's
+        // native keyboard does. Reuses the existing one-shot Shift mechanism,
+        // so it also shows up as the uppercase key-label preview and the
+        // highlighted Shift key.
+        function checkAutoCapitalize() {
+            const el = document.getElementById('output');
+            const pos = el.selectionStart ?? el.value.length;
+            const beforeCursor = el.value.slice(0, pos).replace(/[ \t\n]+$/, '');
+            const shouldCapitalize = beforeCursor.length > 0 && /[.!?]$/.test(beforeCursor);
+            if (shouldCapitalize && currentLayout === 'letters' && !shiftActive) {
+                shiftActive = true;
+                buildKeyboard();
+            }
         }
 
         // Places a combining dot below (U+0323) right after the previously typed
@@ -507,6 +524,12 @@
         document.addEventListener('keyup', (e) => {
             if (codeToLatin[e.code]) flashKey(e.code, false);
         });
+
+        // Space/Enter on a *physical* keyboard aren't in codeToLatin, so they
+        // fall through to the browser's native textarea handling instead of
+        // insertChar() above — catch that path here so auto-capitalize still
+        // fires after ". " typed with a real keyboard, not just on-screen taps.
+        document.getElementById('output').addEventListener('input', checkAutoCapitalize);
 
         buildKeyboard();
     </script>
