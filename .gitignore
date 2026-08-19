@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+
+# Scratch folder used for staging files to be deleted manually
+_to_delete/
+
+# Jekyll / GitHub Pages build artifacts (in case a local build is ever run)
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/

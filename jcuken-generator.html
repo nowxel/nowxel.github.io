@@ -195,7 +195,7 @@
                         <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ю</span> <span class="text-amber-400 font-bold">→ ü</span></div>
                         <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">я</span> <span class="text-amber-400 font-bold">→ ja</span></div>
                         <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">є</span> <span class="text-amber-400 font-bold">→ je</span></div>
-                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ї</span> <span class="text-amber-400 font-bold">→ ji</span></div>
+                        <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ї</span> <span class="text-amber-400 font-bold">→ ï</span></div>
                         <div class="p-2 rounded bg-[#212126] text-center"><span class="text-gray-400">ь</span> <span class="text-amber-400 font-bold">→ ◌̣</span></div>
                     </div>
                     <p class="text-[10px] text-gray-500 italic leading-normal">
@@ -220,11 +220,11 @@
         // відповідник, який фізично друкується тією ж клавішею в розкладці.
         const TRANSLIT_MAP = {
             'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'je','ж':'ż','з':'z',
-            'и':'y','і':'i','ї':'ji','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p',
+            'и':'y','і':'i','ї':'ï','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p',
             'р':'r','с':'s','т':'t','у':'u','ф':'f','х':'ḣ','ц':'c','ч':'ċ','ш':'ṡ','щ':'s̈',
             'ю':'ü','я':'ja'
         };
-        const MULTI_LETTERS = new Set(['je', 'ji', 'ja']);
+        const MULTI_LETTERS = new Set(['je', 'ja']);
         const DOT_BELOW = '̣'; // combining dot below — replaces the soft sign (ь)
 
         function capitalizeLatin(latin) {
