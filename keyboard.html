@@ -394,7 +394,14 @@
             const pos = el.selectionStart ?? el.value.length;
             const beforeCursor = el.value.slice(0, pos).replace(/[ \t\n]+$/, '');
             const shouldCapitalize = beforeCursor.length > 0 && /[.!?]$/.test(beforeCursor);
-            if (shouldCapitalize && currentLayout === 'letters' && !shiftActive) {
+            // Not gated on currentLayout === 'letters': "!"/"?" only live on
+            // the 123 page, and pressSpace() there flips back to letters
+            // *after* calling insertChar() (which is what calls this), so at
+            // the moment this runs we're still nominally on the symbols page.
+            // Arming shiftActive here is harmless while on symbols (nothing
+            // capitalizes there) and is exactly what's needed once we land
+            // back on letters right after.
+            if (shouldCapitalize && !shiftActive) {
                 shiftActive = true;
                 buildKeyboard();
             }
