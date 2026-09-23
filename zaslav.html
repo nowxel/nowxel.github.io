@@ -536,7 +536,7 @@
     const FONT_URL = 'https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.otf';
     // Цільовий алфавіт — у такому порядку показуються клавіші; відсутні в шрифті стають пунктирними
     const TARGET = 'АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУЎФХЦЧШЩЬЮЯ';
-    const SPACE_EM = 0.28;          // у шрифті ще немає гліфа пробілу
+    const SPACE_EM = 0.28;          // запасна ширина, якщо у шрифті немає гліфа пробілу
     const STORE_KEY = 'zaslav-gen-v1';
 
     const PRESETS = [
@@ -610,7 +610,8 @@
         const upm = font.unitsPerEm;
         const px = state.size / upm;              // px на одиницю шрифту
         const track = state.tracking / 1000 * upm; // трекінг у одиницях шрифту
-        const space = SPACE_EM * upm;
+        const spaceGlyph = font.charToGlyphIndex(' ') ? font.charToGlyph(' ') : null;
+        const space = spaceGlyph ? spaceGlyph.advanceWidth : SPACE_EM * upm;
         const lineGap = state.leading * upm;
 
         const lines = norm(state.text).split('\n').map(line => {
