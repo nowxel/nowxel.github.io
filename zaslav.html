@@ -731,7 +731,7 @@
     /* ---------- controls ---------- */
     function buildKeys() {
         els.keys.innerHTML = '';
-        const extras = [...supported].filter(c => !TARGET.includes(c)).sort();
+        const extras = [...supported].filter(c => !TARGET.includes(c) && c === c.toLocaleUpperCase('uk')).sort();
         for (const ch of [...TARGET, ...extras]) {
             const b = document.createElement('button');
             b.type = 'button';
