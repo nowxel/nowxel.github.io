@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f0f11">
+<title>Zaslav Display — рукописний кириличний шрифт</title>
+<meta name="description" content="Zaslav Display: рукописний кириличний дисплейний шрифт для української та білоруської, у розробці (31 велика літера). Вільна ліцензія SIL OFL 1.1, файли для веб і застосунків.">
+<link rel="canonical" href="https://nowxel.github.io/zaslav-display.html">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nowxel.github.io/zaslav-display.html">
+<meta property="og:title" content="Zaslav Display — рукописний кириличний шрифт">
+<meta property="og:description" content="Рукописний дисплейний шрифт для української та білоруської, у розробці (31 велика літера). Вільна ліцензія SIL OFL 1.1.">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@926d287/zaslav-specimen-v11.png">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zaslav Display — рукописний кириличний шрифт">
+<meta name="twitter:description" content="Рукописний дисплейний шрифт для української та білоруської, у розробці. SIL OFL 1.1.">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@926d287/zaslav-specimen-v11.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Zaslav Display",
+  "alternateName": "Заслаў",
+  "description": "Рукописний кириличний дисплейний шрифт для української та білоруської мов, у розробці. 31 велика літера + Ꙗ, кернінг на 413 пар, малих літер поки немає.",
+  "url": "https://nowxel.github.io/zaslav-display.html",
+  "image": "https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@926d287/zaslav-specimen-v11.png",
+  "creator": {
+    "@type": "Person",
+    "name": "nowxel",
+    "url": "https://github.com/nowxel"
+  },
+  "license": "https://scripts.sil.org/OFL",
+  "inLanguage": ["uk", "be"],
+  "version": "11.002",
+  "isAccessibleForFree": true,
+  "sameAs": "https://github.com/nowxel/zaslav-font"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<style>
+    /* Шрифт береться прямо з репозиторію github.com/nowxel/zaslav-font через jsDelivr */
+    @font-face {
+        font-family: "Zaslav Display";
+        src: url("https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@5b9e0db4443f3a212971dfda870f7ef4422187ba/ZaslavDisplay-Regular.woff2") format("woff2"),
+             url("https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@5b9e0db4443f3a212971dfda870f7ef4422187ba/ZaslavDisplay-Regular.otf") format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
+    }
+
+    :root {
+        --bg: #0f0f11;
+        --card: #18181c;
+        --card-2: #202026;
+        --line: #2c2c34;
+        --text: #ececef;
+        --muted: #9b9ba6;
+        --accent: #d28b43;
+        --accent-soft: #ecc892;
+        --good: #7fb87f;
+        --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Montserrat", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #b46e31; border-radius: 4px; }
+    a { color: var(--accent-soft); }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    .zaslav { font-family: "Zaslav Display", "Lora", serif; font-weight: 400; }
+
+    header.hero { padding: 48px 0 8px; }
+    .back { color: var(--muted); text-decoration: none; font-size: 13px; }
+    .back:hover { color: var(--accent-soft); }
+    .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 24px 0 10px; font-weight: 600; }
+    h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 18px; font-weight: 700; letter-spacing: -.01em; }
+    .specimen {
+        font-family: "Zaslav Display", "Lora", serif;
+        font-size: clamp(64px, 15vw, 150px);
+        line-height: .95;
+        letter-spacing: .03em;
+        color: var(--accent-soft);
+        margin: 8px 0 20px;
+        word-break: break-word;
+    }
+    .lede { color: var(--muted); max-width: 62ch; font-size: 1.05rem; margin: 0 0 22px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 12px; font-weight: 600; letter-spacing: .03em;
+        color: var(--accent-soft); border: 1px solid #4a3522; background: #21180f;
+        padding: 5px 12px; border-radius: 999px;
+    }
+    .pill.wip { color: #f0c98a; border-color: #5a4224; background: #241a0d; }
+
+    section { padding: 30px 0; border-top: 1px solid var(--line); }
+    h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; font-weight: 600; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; }
+
+    .alphabet {
+        font-family: "Zaslav Display", "Lora", serif;
+        font-size: clamp(32px, 6vw, 52px);
+        line-height: 1.7;
+        letter-spacing: .06em;
+        color: var(--text);
+        word-break: break-word;
+    }
+
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .status-grid { grid-template-columns: 1fr; } }
+    .status-col h3 { font-size: 14px; margin: 0 0 10px; color: var(--text); }
+    .status-col.done h3 { color: var(--good); }
+    .status-col.missing h3 { color: #e0a06b; }
+    .status-col ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .92rem; line-height: 1.7; }
+
+    pre {
+        background: var(--card-2); border: 1px solid var(--line); border-radius: 10px;
+        padding: 14px 16px; overflow-x: auto; font-size: .86rem; color: #c9d6e3;
+    }
+    code { font-family: "SFMono-Regular", Consolas, monospace; }
+
+    .downloads { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: var(--accent); color: #1a1006; font-weight: 600; font-size: .88rem;
+        padding: 10px 16px; border-radius: 10px; text-decoration: none;
+    }
+    .btn:hover { background: var(--accent-soft); }
+    .btn.secondary { background: var(--card-2); color: var(--text); border: 1px solid var(--line); }
+    .btn.secondary:hover { background: #26262d; }
+
+    .cross-links { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { .cross-links { grid-template-columns: 1fr; } }
+    .cross-links a.card { text-decoration: none; color: var(--text); display: block; }
+    .cross-links a.card:hover { border-color: var(--accent); }
+    .cross-links .card b { display: block; margin-bottom: 4px; font-size: .95rem; }
+    .cross-links .card span { color: var(--muted); font-size: .85rem; }
+
+    footer { padding: 32px 0 56px; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--accent-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+    <a class="back" href="index.html">← nowxel.github.io</a>
+    <p class="eyebrow">Рукописний кириличний шрифт · у розробці</p>
+    <h1>Zaslav Display</h1>
+    <div class="specimen zaslav" lang="uk">ЗАСЛАВ</div>
+    <p class="lede">
+        Рукописний дисплейний (заголовковий) шрифт для української та білоруської.
+        Літери простежені з вивіски «ЗАСЛАЎ» та історичного кириличного зразка,
+        зібрані в справжні файли шрифту за допомогою
+        <a href="https://github.com/fonttools/fonttools" target="_blank" rel="noopener">fontTools</a>.
+        Призначений для великих заголовків і логотипів, а не для дрібного тексту інтерфейсу.
+    </p>
+    <div class="pills">
+        <span class="pill">31 велика літера + Ꙗ</span>
+        <span class="pill">Українська + білоруська</span>
+        <span class="pill">413 пар кернінгу</span>
+        <span class="pill wip">У розробці: малих літер ще немає</span>
+        <span class="pill">SIL OFL 1.1 — вільна ліцензія</span>
+    </div>
+</header>
+
+<section>
+    <h2>Алфавіт</h2>
+    <div class="card">
+        <div class="alphabet zaslav" lang="uk">А Б В Г Ґ Д Е Є Ж З И І Ї Й К Л М Н О П Р С Т Ў Х Ч Ш Щ Ь Ю Я Ꙗ</div>
+    </div>
+</section>
+
+<section>
+    <h2>Стан шрифту</h2>
+    <div class="card status-grid">
+        <div class="status-col done">
+            <h3>Уже є</h3>
+            <ul>
+                <li>31 велика літера + Ꙗ (iotified А)</li>
+                <li>Кернінг: 413 пар (РА, ТА, ГА, ЗА, АТ, АЧ, ХА, ДЕ, ТО…)</li>
+                <li>Гліф пробілу (U+0020 і U+00A0) — власний, не з fallback-шрифту</li>
+                <li>Ш, Щ, Ю, Ь, Ꙗ — реконструйовані з тих самих штрихів, що й решта літер</li>
+            </ul>
+        </div>
+        <div class="status-col missing">
+            <h3>Ще немає</h3>
+            <ul>
+                <li>Літери У, Ф, Ц</li>
+                <li>Жодної малої літери</li>
+                <li>Апострофа (U+02BC чи U+2019)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Використання</h2>
+    <div class="card">
+        <p class="lede" style="margin-bottom:14px">На вебі — готовий фрагмент CSS з jsDelivr (файли беруться напряму з
+        <a href="https://github.com/nowxel/zaslav-font" target="_blank" rel="noopener">репозиторію шрифту</a>):</p>
+        <pre><code>@font-face {
+  font-family: "Zaslav Display";
+  src: url("https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.woff2") format("woff2"),
+       url("https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.zaslav { font-family: "Zaslav Display", serif; }</code></pre>
+        <p class="lede" style="margin:14px 0 0">У застосунку (iOS/Android/Flutter тощо) — підключіть <code>.ttf</code> чи <code>.otf</code> як звичайний шрифт і використовуйте назву родини <code>Zaslav Display</code>.</p>
+        <div class="downloads">
+            <a class="btn" href="https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.woff2" download>Завантажити .woff2</a>
+            <a class="btn secondary" href="https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.otf" download>.otf</a>
+            <a class="btn secondary" href="https://cdn.jsdelivr.net/gh/nowxel/zaslav-font@main/ZaslavDisplay-Regular.ttf" download>.ttf</a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Ліцензія та автор</h2>
+    <div class="card">
+        <p class="lede" style="margin-bottom:10px">
+            Шрифт поширюється за вільною ліцензією
+            <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License 1.1</a>
+            (<a href="https://github.com/nowxel/zaslav-font/blob/main/OFL.txt" target="_blank" rel="noopener">повний текст</a>).
+            Можна безкоштовно використовувати, вбудовувати, змінювати й поширювати, зокрема комерційно —
+            за умови, що шрифт не продається окремо сам по собі й ліцензія йде разом з ним.
+        </p>
+        <p class="lede" style="margin:0">
+            Автор: <a href="https://github.com/nowxel" target="_blank" rel="noopener">nowxel</a>.
+            Версія 11.002. Джерело та історія розробки — у
+            <a href="https://github.com/nowxel/zaslav-font" target="_blank" rel="noopener">репозиторії на GitHub</a>.
+        </p>
+    </div>
+</section>
+
+<section>
+    <h2>Ще на сайті</h2>
+    <div class="cross-links">
+        <a class="card" href="zaslav.html">
+            <b>Генератор написів</b>
+            <span>Набрати текст цим шрифтом і експортувати в PNG чи SVG</span>
+        </a>
+        <a class="card" href="fonts.html">
+            <b>Тестер церковнослов'янських шрифтів</b>
+            <span>Порівняти Zaslav Display з іншими шрифтами</span>
+        </a>
+    </div>
+</section>
+
+<footer>
+    <p><a href="index.html">nowxel.github.io</a> · Шрифт і сторінка — незалежний проєкт, не пов'язаний з жодною торговою маркою.</p>
+</footer>
+
+</div>
+</body>
+</html>

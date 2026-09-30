@@ -16,14 +16,14 @@ if [ "$SHA" != "$LOCAL" ]; then
   exit 1
 fi
 
-perl -pi -e "s#zaslav-font\@[0-9A-Za-z]+/#zaslav-font\@$SHA/#g" fonts.html zaslav.html
+perl -pi -e "s#zaslav-font\@[0-9A-Za-z]+/#zaslav-font\@$SHA/#g" fonts.html zaslav.html zaslav-display.html
 
-if git diff --quiet -- fonts.html zaslav.html; then
+if git diff --quiet -- fonts.html zaslav.html zaslav-display.html; then
   echo "Сайт уже використовує останню версію шрифту (${SHA%${SHA#???????}})."
   exit 0
 fi
 
-git add fonts.html zaslav.html
+git add fonts.html zaslav.html zaslav-display.html
 git commit -q -m "Pin Zaslav Display font to ${SHA%${SHA#???????}}"
 git push -q
 echo "Готово: сайт тепер бере шрифт з коміту ${SHA%${SHA#???????}}. GitHub Pages оновиться за хвилину-дві."
